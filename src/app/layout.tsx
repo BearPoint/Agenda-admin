@@ -1,8 +1,15 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Noto_Sans_Old_Permic, Roboto_Mono } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const notoSans = Roboto_Mono({
+  weight: ['400', '200','300', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={notoSans.className}>{children}</body>
     </html>
   )
 }
