@@ -13,6 +13,12 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      gridTemplateColumns: {
+        "dashboard-layout": "200px 1fr"
+      },
+      gridTemplateRows: {
+        "dashboard-layout": "1fr 2fr"
+      }
     },
   },
   plugins: [],
