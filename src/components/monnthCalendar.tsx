@@ -7,6 +7,8 @@ export default function MonthCalendar() {
     <FullCalendar
         plugins={[ dayGridPlugin ]}
         initialView="dayGridMonth"
+        height={'inherit'}
+        fixedWeekCount={false}
       />
   )
 }
