@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
@@ -23,7 +22,7 @@ export default function Login() {
   };
 
   return (
-    <div className="text-black h-screen flex justify-center items-center bg-image text-stone-700">
+    <div className="h-screen flex justify-center items-center bg-image text-stone-700">
       <div className="bg-white relative p-6 pt-8 rounded-sm">
         <div className="w-full h-20 flex justify-center items-center ">
           Logo
