@@ -4,8 +4,9 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 
 export default function MonthCalendar() {
   return (
-    <div className="rounded-lg bg-white p-5 h-auto">
+    <div className="rounded-lg bg-white p-5">
       <FullCalendar
+        height={'100%'}
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
         themeSystem="standard"

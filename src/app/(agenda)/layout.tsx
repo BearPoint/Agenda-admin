@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={dm_sans.className}>
-        <div className="grid grid-cols-dashboard-layout h-screen">
+        <div className="grid grid-cols-1 lg:grid-cols-dashboard-layout h-screen">
           <Sidebar />
           <div className="bg-[#F3F9F8]">{children}</div>
         </div>

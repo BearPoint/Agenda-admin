@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 export default function Sidebar() {
   return (
-    <div>
+    <div className=''>
+
       <div className="bg-blue-500 h-28 flex justify-center items-center mb-5">
         <p>
 
@@ -59,6 +60,9 @@ export default function Sidebar() {
           </Link>
         </li>
       </ul>
+      <div className='mt-auto'>
+        log out
+      </div>
     </div>
   );
 }
