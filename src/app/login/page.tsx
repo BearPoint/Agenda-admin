@@ -53,7 +53,7 @@ export default function Login() {
           login
         </button>
         <div className="py-2 w-full text-center font-light text-xs">
-          <a href="/forgot-password">Forgot Password</a>
+          <Link href="/forgot-password">Forgot Password</Link>
         </div>
         <p className="py-2 text-xs">
           <span className='font-bold'>Dont have an account?</span>
