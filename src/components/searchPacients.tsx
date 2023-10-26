@@ -3,10 +3,14 @@ import Image from "next/image";
 import debounce from "just-debounce-it";
 import { Patient } from "@/types/Pacient";
 import SearchPacientsList from "./searchPacientList";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import SearchPacientsItem from "./searchPatientItem";
 
-export default function SearchPacients() {
+export default function SearchPacients({
+  onSelectedPatient,
+}: {
+  onSelectedPatient: (patient: Patient | null) => void;
+}) {
   const { results, getPacients, isLoading, setResults } = useSearchPacients();
   const [selectedPatient, setPatient] = useState<Patient | null>({} as Patient);
   const onChangeHandler = debounce((name: string) => {
@@ -20,11 +24,13 @@ export default function SearchPacients() {
   };
   const onClickHandler = (patient: Patient) => {
     setPatient(patient);
+    onSelectedPatient(patient);
     setResults([]);
   };
 
   const removeHandler = () => {
     setPatient(null);
+    onSelectedPatient(null)
   };
   return (
     <div className="flex items-center">
@@ -53,7 +59,7 @@ export default function SearchPacients() {
             id="simple-search"
             onChange={(e) => onChangeHandler(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Nombre del paciente..."
+            placeholder="Buscar paciente..."
             autoComplete="off"
             onFocus={onFocushandler}
           />

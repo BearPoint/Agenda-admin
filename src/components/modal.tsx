@@ -7,7 +7,6 @@ interface Props {
   isOpen: boolean;
   closeButton?: boolean;
   closeHandler?: () => void;
-  event: {};
   submitHandler: () => void;
   submitLabel?: string;
   title?: string;
@@ -41,7 +40,7 @@ export function Modal({
             close X
           </button>
         </div>
-        <div>{children}</div>
+        {children}
         <div className="text-end">
           {closeButton ? (
             <button
