@@ -80,7 +80,8 @@ export async function GET(req: Request) {
   const search = url.searchParams.get("search");
   if (search) {
     const filterData = dataUsuarios.filter((user) =>
-      user.fullName.toLocaleLowerCase().includes(search.toLowerCase())
+      user.fullName.toLocaleLowerCase().includes(search.toLowerCase()) ||
+      user.phone.split('-').join('').includes(search)
     );
     filterData.sort(
       (a, b) => a.fullName.indexOf(search) - b.fullName.indexOf(search)

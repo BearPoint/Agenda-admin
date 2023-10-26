@@ -4,20 +4,20 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { EventClickArg, EventApi } from "@fullcalendar/core";
-import { Modal } from "./modal";
 import EventModal from "./eventModal";
-import { CreateEventModal } from './createEventModal';
+import { CreateEventModal } from "./createEventModal";
+import dayjs, { Dayjs } from 'dayjs';
 
 export default function MonthCalendar() {
   const [displayModal, setDisplayModal] = useState<boolean>(false);
-  const [displayCreateEventModal, setDisplayCreateEventModal] = useState<boolean>(false);
+  const [displayCreateEventModal, setDisplayCreateEventModal] =
+    useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<EventApi>({} as EventApi);
+  const [seletedDay, setSelectedDay] = useState<Dayjs>(dayjs());
 
   const dobleClickOnEventHandler = (data: EventClickArg) => {
     const { jsEvent } = data;
     if (jsEvent.detail === 2) {
-      console.log(jsEvent.detail);
-      console.log(data.event.extendedProps);
       setSelectedEvent(data.event);
       setDisplayModal(true);
     }
@@ -26,7 +26,8 @@ export default function MonthCalendar() {
   const dobleCLickOnCalendarHandler = (data: any) => {
     const { jsEvent } = data;
     if (jsEvent.detail === 2) {
-      setDisplayCreateEventModal(true)
+      setDisplayCreateEventModal(true);
+      setSelectedDay(dayjs(data.date));
     }
   };
   return (
@@ -63,12 +64,12 @@ export default function MonthCalendar() {
         displayModal={displayModal}
         closeHandler={() => setDisplayModal(false)}
       />
-      <CreateEventModal
-        event={{}}
+      {displayCreateEventModal ?<CreateEventModal
+        selectedDate={seletedDay}
         displayModal={displayCreateEventModal}
-        onClose={()=> setDisplayCreateEventModal(false)}
-        onSubmit={()=> console.log('test')}
-      />
+        onClose={() => setDisplayCreateEventModal(false)}
+        onSubmit={() => console.log("test")}
+      />: null}
     </>
   );
 }
