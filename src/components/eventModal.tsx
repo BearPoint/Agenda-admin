@@ -1,37 +1,28 @@
 import { EventApi } from "@fullcalendar/core";
 import { Modal } from "./modal";
+import { Appointment } from '@/types/appointment';
 
 interface Props {
-  event: EventApi;
+  event: Appointment;
   displayModal: boolean;
   closeHandler: () => void;
 }
-
-/*----------------------------------------------------------------
-
-isOpen,
-  closeHandler = () => {},
-  closeButton,
-  submitHandler = () => {},
-  submitLabel,
-
-*/
 
 export default function EventModal({
   event,
   displayModal,
   closeHandler,
 }: Props) {
+  console.log(event.extendedProps)
   return (
     <Modal
-      event={event}
       isOpen={displayModal}
       closeButton={true}
       closeHandler={closeHandler}
       submitHandler={()=>{}}
     >
       <h2>{event.title}</h2>
-      <div>{event.start?.toString()}</div>
+      <div>{event.title}</div>
     </Modal>
   );
 }

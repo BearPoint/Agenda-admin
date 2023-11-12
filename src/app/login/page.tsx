@@ -6,18 +6,20 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/input";
 import "@/styles/login.css";
 import Link from "next/link";
+import { Database } from '../../types/database.types';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const router = useRouter();
 
   const onClickHandler = async () => {
-    await supabase.auth.signInWithPassword({
+    const request = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    console.log(request)
     router.push("/");
   };
 

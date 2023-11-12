@@ -1,9 +1,11 @@
-import { Patient } from "./Pacient";
+import { Patient } from './Pacient.d';
 
 export interface Appointment {
-  date: string;
-  patient: Patient | null;
-  title: string;
-  duration: number;
-  notes: string
+  id: String 
+  nombre: String 
+  pacienteId: String
+  paciente: Patient
+  tipo: string
+  date: string
+  notas: string
 }

@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+
+}
+
+model paciente {
+  id  String @db.Uuid @id @unique @default(dbgenerated("gen_random_uuid()"))
+  nombre String @db.Text
+  fecha_nacimient DateTime @db.Date
+  genero Genero @default(MUJER)
+  direccion String? @db.Text
+  telefono String @db.Text
+  correo String? @db.Text
+  antecedentes String? @db.Text
+  medicamentos String?
+  alerigas pacienteAlergia[]
+  contacto_Emergencia contactoEmergencia[]
+  cita cita[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model contactoEmergencia {
+  id String @id @unique   ated("gen_random_uuid()"))
+  nombre String @db.Text
+  parentesco String @db.Text
+  telefono  String @db.Text
+  correo String @db.Text
+  pacienteId String @db.Uuid
+  paciente paciente  @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model alergia {
+  id String @id @unique @default(dbgenerated("gen_random_uuid()"))
+  nombre String @db.Text
+  pacientes pacienteAlergia[]
+}
+
+model pacienteAlergia {
+  id String @id @unique @default(dbgenerated("gen_random_uuid()"))
+  pacienteId String @db.Uuid
+  paciente paciente @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+
+  alergiaid String
+  alergia alergia @relation(fields: [alergiaid], references: [id], onDelete: Cascade)
+}
+
+model cita {
+  id String @id @unique @default(dbgenerated("gen_random_uuid()"))
+  nombre String @db.Text
+  pacienteId String @db.Uuid
+  paciente paciente @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  tipo CitasTipo @default(PRIMERA_CITA)
+  date DateTime
+  notas String @db.Text
+}
+
+model user {
+  id String @id @unique @default(dbgenerated("gen_random_uuid()"))
+  email String @db.Text 
+  fullname String? @db.Text 
+  avatar String? @db.Text
+}
+
+enum CitasTipo {
+  PRIMERA_CITA
+  OPERACION
+  PAP
+  RUTINA
+}
+
+enum Genero {
+  MUJER
+  Hombre
+  MUJER_TRANS
+  HOMBRE_TRANS
+  NO_BINARIA
+}
