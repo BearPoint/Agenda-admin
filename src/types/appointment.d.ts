@@ -9,3 +9,10 @@ export interface Appointment {
   date: string
   notas: string
 }
+
+export interface AppointmentInputs {
+  name: string;
+  dateOfBirth: string;
+  telefono: string;
+  notas: string;
+};

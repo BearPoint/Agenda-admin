@@ -31,6 +31,7 @@ export default function DatePicker({
     todayBtn: false,
     clearBtn: false,
     minDate,
+    maxDate,
     theme: {
       background: "",
       todayBtn: "",

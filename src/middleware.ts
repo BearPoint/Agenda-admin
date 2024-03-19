@@ -5,19 +5,18 @@ export async function middleware(req: NextRequest) {
   const reqUrl = new URL(req.url);
   const res = NextResponse.next();
   const supabase = createMiddlewareClient({ req, res });
-  const isLoginPage = reqUrl.pathname === '/login'
+  const isLoginPage = reqUrl.pathname === "/sign-in";
   const {
-    data: { session }
+    data: { session },
   } = await supabase.auth.getSession();
+  console.log({path: reqUrl.pathname, isLoginPage, session})
   if (isLoginPage && session) {
-    return NextResponse.redirect(reqUrl.host)
-  } else if(!session && !isLoginPage) {
-    return NextResponse.redirect(`http://${reqUrl.host}/login`)
+    return NextResponse.redirect(reqUrl.host);
+  } else if (!session && !isLoginPage) {
+    return NextResponse.redirect(`http://${reqUrl.host}/sign-in`);
   }
-  return res
+  return res;
 }
 export const config = {
-  matcher: [
-    '/((?!api|images|icons|_next/static|_next/image|favicon.ico).*)'
-  ],
-}
+  matcher: ["/((?!api|auth/callback|images|icons|_next/static|_next/image|favicon.ico).*)"],
+};
