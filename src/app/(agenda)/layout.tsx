@@ -1,19 +1,9 @@
 import "./../globals.css";
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono, DM_Sans } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import Sidebar from "@/components/sidebar";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@/types/database.types";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-
-const inter = Inter({ subsets: ["latin"] });
-
-const notoSans = Roboto_Mono({
-  weight: ["400", "200", "300", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
+import ModalProvider from "@/components/providres/modal-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const dm_sans = DM_Sans({ weight: ["400"], subsets: ["latin"] });
 
@@ -30,9 +20,11 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={dm_sans.className}>
-        <div className="grid grid-cols-2 md:grid-cols-[50px_1fr] lg:grid-cols-dashboard-layout h-screen">
+        <ModalProvider />
+        <Toaster />
+        <div className="grid grid-cols-2 md:grid-cols-[50px_1fr] lg:grid-cols-dashboard-layout h-screen mt">
           <Sidebar />
-          <div className="bg-[#F3F9F8]">{children}</div>
+          <div className="bg-[#F3F9F8] ">{children}</div>
         </div>
       </body>
     </html>

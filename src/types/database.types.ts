@@ -1,5 +1,3 @@
-import { PostgrestError } from '@supabase/supabase-js'
-
 export type Json =
   | string
   | number
@@ -34,6 +32,7 @@ export interface Database {
           notas: string
           pacienteId: string
           tipo: Database["public"]["Enums"]["CitasTipo"]
+          user_id: string
         }
         Insert: {
           date: string
@@ -42,6 +41,7 @@ export interface Database {
           notas: string
           pacienteId: string
           tipo?: Database["public"]["Enums"]["CitasTipo"]
+          user_id: string
         }
         Update: {
           date?: string
@@ -50,6 +50,7 @@ export interface Database {
           notas?: string
           pacienteId?: string
           tipo?: Database["public"]["Enums"]["CitasTipo"]
+          user_id?: string
         }
         Relationships: [
           {
@@ -57,6 +58,13 @@ export interface Database {
             columns: ["pacienteId"]
             isOneToOne: false
             referencedRelation: "paciente"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cita_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
             referencedColumns: ["id"]
           }
         ]
@@ -111,10 +119,12 @@ export interface Database {
           fecha_nacimient: string
           genero: Database["public"]["Enums"]["Genero"]
           id: string
+          imageUrl: string | null
           medicamentos: string | null
           nombre: string
           telefono: string
           updatedAt: string
+          user_id: string
         }
         Insert: {
           antecedentes?: string | null
@@ -124,10 +134,12 @@ export interface Database {
           fecha_nacimient: string
           genero?: Database["public"]["Enums"]["Genero"]
           id?: string
+          imageUrl?: string | null
           medicamentos?: string | null
           nombre: string
           telefono: string
           updatedAt?: string
+          user_id: string
         }
         Update: {
           antecedentes?: string | null
@@ -137,12 +149,22 @@ export interface Database {
           fecha_nacimient?: string
           genero?: Database["public"]["Enums"]["Genero"]
           id?: string
+          imageUrl?: string | null
           medicamentos?: string | null
           nombre?: string
           telefono?: string
           updatedAt?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "paciente_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       pacienteAlergia: {
         Row: {
@@ -203,7 +225,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      convert_to_uuid: {
+        Args: {
+          input_value: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       CitasTipo: "PRIMERA_CITA" | "OPERACION" | "PAP" | "RUTINA"
@@ -214,13 +241,3 @@ export interface Database {
     }
   }
 }
-
-export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
-export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
-
-
-
-
-export type DbResult<T> = T extends PromiseLike<infer U> ? U : never
-export type DbResultOk<T> = T extends PromiseLike<{ data: infer U }> ? Exclude<U, null> : never
-export type DbResultErr = PostgrestError

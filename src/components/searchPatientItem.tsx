@@ -1,12 +1,12 @@
-import { Patient } from "@/types/Pacient";
+import { Tables } from '@/types/tables';
 import Image from "next/image";
 
 export default function SearchPacientsItem({
-  patient: { photo, fullName, phone },
+  patient: {avatar_url, fullname, telefone},
   removeButton,
   removeHandler,
 }: {
-  patient: Patient;
+  patient: Tables<"paciente">;
   removeButton?: boolean;
   removeHandler?: () => void;
 }) {
@@ -14,7 +14,7 @@ export default function SearchPacientsItem({
     <div className="grid gap-5 grid-cols-[50px_1fr_20px] w-full">
       <div className="h-14">
         <Image
-          src={photo}
+          src={avatar_url || ''}
           alt="foto del paciente paciente"
           width={50}
           height={50}
@@ -23,8 +23,8 @@ export default function SearchPacientsItem({
       </div>
 
       <div>
-        <div>{fullName}</div>
-        <div>{phone}</div>
+        <div>{fullname}</div>
+        <div>{telefone}</div>
       </div>
       {removeButton ? (
         <div onClick={removeHandler} className="mr-2 m-auto">

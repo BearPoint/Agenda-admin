@@ -1,40 +1,38 @@
-"use client";
-import { useState } from "react";
+'use client'
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { EventClickArg, EventApi } from "@fullcalendar/core";
-import EventModal from "./eventModal";
-import { CreateEventModal } from "./createEventModal";
-import dayjs, { Dayjs } from "dayjs";
-import { Appointment } from "@/types/appointment";
+import { EventClickArg } from "@fullcalendar/core";
+import dayjs from "dayjs";
 import { eventFormater } from "@/utils/eventFormater";
-import { Tables } from '@/types/database.types';
+import { ModalType, useModal } from "@/hooks/useModal";
+import { Tables } from '@/types/tables';
 
 export default function MonthCalendar({
-  eventes,
+  events,
 }: {
-  eventes: Array<Tables['cita']>;
+  events: Tables<"cita">[] | null;
 }) {
-  const [displayModal, setDisplayModal] = useState<boolean>(false);
-  const [displayCreateEventModal, setDisplayCreateEventModal] =
-    useState<boolean>(false);
-  const [selectedEvent, setSelectedEvent] = useState<EventApi>({} as EventApi);
-  const [seletedDay, setSelectedDay] = useState<Dayjs>(dayjs());
-  console.log(eventFormater(eventes))
+  const { onOpen } = useModal();
+  console.log(events)
   const dobleClickOnEventHandler = (data: EventClickArg) => {
     const { jsEvent } = data;
     if (jsEvent.detail === 2) {
-      setSelectedEvent(data.event);
-      setDisplayModal(true);
+      onOpen({ 
+        type: ModalType.viewAppoiment, 
+        data: { event: data.event }
+      });
     }
   };
 
   const dobleCLickOnCalendarHandler = (data: any) => {
     const { jsEvent } = data;
     if (jsEvent.detail === 2) {
-      setDisplayCreateEventModal(true);
-      setSelectedDay(dayjs(data.date));
+      console.log(data.date)
+      onOpen({
+        type: ModalType.CreateAppoiment,
+        data: { eventDay: dayjs(data.date) },
+      });
     }
   };
   return (
@@ -53,22 +51,9 @@ export default function MonthCalendar({
           dayMaxEvents={2}
           dateClick={dobleCLickOnCalendarHandler}
           eventClick={dobleClickOnEventHandler}
-          initialEvents={eventFormater(eventes)}
+          initialEvents={eventFormater(events)}
         />
       </div>
-      <EventModal
-        event={selectedEvent}
-        displayModal={displayModal}
-        closeHandler={() => setDisplayModal(false)}
-      />
-      {displayCreateEventModal ? (
-        <CreateEventModal
-          selectedDate={seletedDay}
-          displayModal={displayCreateEventModal}
-          onClose={() => setDisplayCreateEventModal(false)}
-          onSubmit={() => console.log("test")}
-        />
-      ) : null}
     </>
   );
 }

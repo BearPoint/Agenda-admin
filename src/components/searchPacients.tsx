@@ -1,3 +1,4 @@
+'use client'
 import useSearchPacients from "@/hooks/useSearchPacients";
 import Image from "next/image";
 import debounce from "just-debounce-it";

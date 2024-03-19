@@ -24,12 +24,15 @@ model paciente {
   alerigas pacienteAlergia[]
   contacto_Emergencia contactoEmergencia[]
   cita cita[]
+  user_id String @db.Uuid
+  user user @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  imageUrl String? @default("https://placehold.co/50x50.png")
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 model contactoEmergencia {
-  id String @id @unique   ated("gen_random_uuid()"))
+  id String @id @unique  @db.Uuid @default(dbgenerated("gen_random_uuid()"))
   nombre String @db.Text
   parentesco String @db.Text
   telefono  String @db.Text
@@ -41,35 +44,39 @@ model contactoEmergencia {
 }
 
 model alergia {
-  id String @id @unique @default(dbgenerated("gen_random_uuid()"))
+  id String @id @db.Uuid @unique @default(dbgenerated("gen_random_uuid()"))
   nombre String @db.Text
   pacientes pacienteAlergia[]
 }
 
 model pacienteAlergia {
-  id String @id @unique @default(dbgenerated("gen_random_uuid()"))
+  id String @id @db.Uuid @unique @default(dbgenerated("gen_random_uuid()"))
   pacienteId String @db.Uuid
   paciente paciente @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
 
-  alergiaid String
+  alergiaid String @db.Uuid
   alergia alergia @relation(fields: [alergiaid], references: [id], onDelete: Cascade)
 }
 
 model cita {
-  id String @id @unique @default(dbgenerated("gen_random_uuid()"))
+  id String @id @db.Uuid @unique @default(dbgenerated("gen_random_uuid()"))
   nombre String @db.Text
-  pacienteId String @db.Uuid
-  paciente paciente @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
+  pacienteId String? @db.Uuid
+  paciente paciente? @relation(fields: [pacienteId], references: [id], onDelete: Cascade)
   tipo CitasTipo @default(PRIMERA_CITA)
   date DateTime
   notas String @db.Text
+  user_id String? @db.Uuid
+  user user? @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model user {
-  id String @id @unique @default(dbgenerated("gen_random_uuid()"))
+  id String @id @db.Uuid @unique @default(dbgenerated("gen_random_uuid()"))
   email String @db.Text 
   fullname String? @db.Text 
   avatar String? @db.Text
+  cita cita[]
+  paciente paciente[]
 }
 
 enum CitasTipo {
