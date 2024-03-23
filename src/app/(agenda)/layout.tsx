@@ -22,7 +22,7 @@ export default async function RootLayout({
       <body className={dm_sans.className}>
         <ModalProvider />
         <Toaster />
-        <div className="grid grid-cols-2 md:grid-cols-[50px_1fr] lg:grid-cols-dashboard-layout h-screen mt">
+        <div className="grid grid-cols-2 md:grid-cols-[70px_1fr] lg:grid-cols-dashboard-layout h-screen mt">
           <Sidebar />
           <div className="bg-[#F3F9F8] ">{children}</div>
         </div>
