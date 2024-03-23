@@ -4,8 +4,14 @@ export default function Sidebar() {
   return (
     <div className=" hidden md:flex flex-col justify-between">
       <div>
-        <div className="bg-blue-500 h-28 flex justify-center items-center mb-5">
-          <p>logo</p>
+        <div className="h-28 flex justify-center items-center mb-5 ">
+          <Image
+            src={"/images/logo.png"}
+            alt="logo"
+            width={50}
+            height={50}
+            className="mx-5"
+          />
         </div>
         <ul className="m-2 lg:ml-4">
           <li className="my-7">
@@ -21,7 +27,10 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="my-7">
-            <Link href={"/pacientes"} className="flex justify-center lg:justify-start">
+            <Link
+              href={"/pacientes"}
+              className="flex justify-center lg:justify-start"
+            >
               <Image
                 src={`/icons/user-doctor.svg`}
                 alt={`icon user-doctor`}
@@ -33,7 +42,10 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="my-7">
-            <Link href={"/citas"} className="flex justify-center lg:justify-start">
+            <Link
+              href={"/citas"}
+              className="flex justify-center lg:justify-start"
+            >
               <Image
                 src={`/icons/calendar.svg`}
                 alt={`icon calendar`}
@@ -58,7 +70,29 @@ export default function Sidebar() {
           </li>
         </ul>
       </div>
-      <div className="mt-auto">log out</div>
+      <div className="mt-auto mx-auto mb-4">
+        <Link
+          href={"/citas"}
+          className="flex justify-center lg:justify-start my-4"
+        >
+          <Image
+            src={`/icons/gear.svg`}
+            alt={`icon gear`}
+            width={12}
+            height={12}
+            className="md:w-5 md:h-5"
+          />
+        </Link>
+        <Link href={"/citas"} className="flex justify-center lg:justify-start">
+          <Image
+            src={`/icons/logout.svg`}
+            alt={`icon logout`}
+            width={12}
+            height={12}
+            className="md:w-5 md:h-5"
+          />
+        </Link>
+      </div>
     </div>
   );
 }
