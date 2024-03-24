@@ -4,7 +4,7 @@ export default function Sidebar() {
   return (
     <div className=" hidden md:flex flex-col justify-between">
       <div>
-        <div className="h-28 flex justify-center items-center mb-5 ">
+        <div className="h-28 flex justify-center items-center mb-5">
           <Image
             src={"/images/logo.png"}
             alt="logo"
@@ -15,7 +15,7 @@ export default function Sidebar() {
         </div>
         <ul className="m-2 lg:ml-4">
           <li className="my-7">
-            <Link href={"/"} className="flex justify-center lg:justify-start">
+            <Link href={"/"} className="flex justify-center">
               <Image
                 src={`/icons/house.svg`}
                 alt={`icon house`}
@@ -23,13 +23,12 @@ export default function Sidebar() {
                 height={12}
                 className="md:w-5 md:h-5"
               />
-              <span className="ml-2 hidden lg:block">Home</span>
             </Link>
           </li>
           <li className="my-7">
             <Link
               href={"/pacientes"}
-              className="flex justify-center lg:justify-start"
+              className="flex justify-center"
             >
               <Image
                 src={`/icons/user-doctor.svg`}
@@ -38,13 +37,12 @@ export default function Sidebar() {
                 height={12}
                 className="md:w-5 md:h-5"
               />
-              <span className="ml-2 hidden lg:block">pacientes</span>
             </Link>
           </li>
           <li className="my-7">
             <Link
               href={"/citas"}
-              className="flex justify-center lg:justify-start"
+              className="flex justify-center"
             >
               <Image
                 src={`/icons/calendar.svg`}
@@ -53,11 +51,10 @@ export default function Sidebar() {
                 height={12}
                 className="md:w-5 md:h-5"
               />
-              <span className="ml-2 hidden lg:block">citas</span>
             </Link>
           </li>
           <li className="my-7">
-            <Link href={"/ho"} className="flex justify-center lg:justify-start">
+            <Link href={"/ho"} className="flex justify-center">
               <Image
                 src={`/icons/file-medical.svg`}
                 alt={`icon file-medical`}
@@ -65,7 +62,6 @@ export default function Sidebar() {
                 height={12}
                 className="md:w-5 md:h-5"
               />
-              <span className="ml-2 hidden lg:block">historias clinicas</span>
             </Link>
           </li>
         </ul>
@@ -73,7 +69,7 @@ export default function Sidebar() {
       <div className="mt-auto mx-auto mb-4">
         <Link
           href={"/citas"}
-          className="flex justify-center lg:justify-start my-4"
+          className="flex justify-center my-4"
         >
           <Image
             src={`/icons/gear.svg`}
@@ -83,7 +79,7 @@ export default function Sidebar() {
             className="md:w-5 md:h-5"
           />
         </Link>
-        <Link href={"/citas"} className="flex justify-center lg:justify-start">
+        <Link href={"/citas"} className="flex justify-center">
           <Image
             src={`/icons/logout.svg`}
             alt={`icon logout`}
