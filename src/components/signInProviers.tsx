@@ -22,7 +22,7 @@ export default function SignInProvider() {
         <Icons.gitHub className="mr-2 h-4 w-4" />
         Github
       </Button>
-      <Button variant="outline" onClick={()=> onClickHandler('google')} disabled>
+      <Button variant="outline" onClick={()=> onClickHandler('google')}>
         <Icons.google className="mr-2 h-4 w-4" />
         Google
       </Button>
