@@ -25,7 +25,7 @@ export function CreateEventModal() {
     type,
   } = useModal();
   const [form, setForm] = useState<AppointmentInputs>(defaultValues);
-  const [patient, setPatient] = useState<Patient | null>(null);
+  const [patient, setPatient] = useState<Patient>({} as Patient);
   const [event, setEvent] = useState<EventScheschuld | undefined>(
     {} as EventScheschuld
   );
@@ -43,17 +43,18 @@ export function CreateEventModal() {
   }, [isModalOpen, eventDay]);
 
   const onSelectedPatient = (patient: any) => {
+    console.log(patient);
     setForm((oldValue) =>
       !patient
         ? defaultValues
         : {
             ...oldValue,
-            name: patient.nombre,
-            dateOfBirth: patient.fecha_nacimient,
-            telefono: patient.telefono,
+            name: patient.fullname,
+            dateOfBirth: patient.date_brith,
+            telefono: patient.telefone,
           }
     );
-    setPatient(patient || ({} as Patient));
+    setPatient(patient || defaultValues);
   };
   const onChangeFormHandler = (name: string, value: string): void => {
     setForm((oldValue) => ({
@@ -62,18 +63,16 @@ export function CreateEventModal() {
     }));
   };
   const onClickHandler = async () => {
-    console.log({
-      pacient: patient || form,
-      event,
+    console.log({eventDay})
+    await supabase.from("appointment").insert({
+      id_patient: patient?.id,
+      id_account: patient?.id_account,
+      type: "PRIMERA_CITA",
+      date: dayjs(eventDay).toISOString(),
+      notes: `${form.notas}${
+        event?.description ? "\n" + event.description : ""
+      }`,
     });
-    const newCita = await supabase.from("cita").insert({
-      nombre: patient?.fullName,
-      tipo: "PRIMERA_CITA",
-      date: event?.dateStart,
-      notas: form.notas + "\n" + event?.description,
-      pacienteId: patient?.id
-    }).select();
-    console.log(newCita)
   };
   return (
     <Modal
@@ -89,7 +88,7 @@ export function CreateEventModal() {
           <AppoimentForm
             values={form}
             onChange={onChangeFormHandler}
-            isDisabled
+            isDisabled={!!form.name}
           />
         </div>
         <Scheduler defaultDate={eventDay} onChange={setEvent} />

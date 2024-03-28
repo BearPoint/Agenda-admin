@@ -11,10 +11,9 @@ export default function useSearchPacients() {
 
   const fetchData = async (name: string = "") => {
     try {
-      const query = supabase.from("patientc").select("*");
+      const query = supabase.from("patient").select("*");
       const { data, error }: DbResult<typeof query> = await query;
-      throw new Error('test')
-      console.log(error);
+      console.log({data,error});
       setResults(data || []);
     } catch (error) {
       console.log(error);

@@ -1,12 +1,12 @@
 import { Appointment } from "@/types/appointment";
-import { Tables } from '@/types/database.types';
 import { EventApi } from '@fullcalendar/core/index.js';
 import dayjs from "dayjs";
 
-export function eventFormater(events: Array<Tables<'cita'>> | null){
+export function eventFormater(events: Appointment[] | null){
   if (!events) return []
+  console.log(events)
   return events.map((event) => ({
-    title: event.nombre ?? 'test',
+    title: event.patient.fullname,
     allDay: false,
     start: dayjs(event.date).format('YYYY-MM-DDTHH:mm:ssZ'),
     extendedProps: {
