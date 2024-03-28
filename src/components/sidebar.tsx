@@ -1,6 +1,16 @@
+'use client'
 import Link from "next/link";
 import Image from "next/image";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from 'next/navigation'
+
 export default function Sidebar() {
+  const supabase = createClientComponentClient();
+  const router = useRouter()
+  const logout = () => {
+    supabase.auth.signOut();
+    router.refresh()
+  };
   return (
     <div className=" hidden md:flex flex-col justify-between">
       <div>
@@ -26,10 +36,7 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="my-7">
-            <Link
-              href={"/pacientes"}
-              className="flex justify-center"
-            >
+            <Link href={"/pacientes"} className="flex justify-center">
               <Image
                 src={`/icons/user-doctor.svg`}
                 alt={`icon user-doctor`}
@@ -40,10 +47,7 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="my-7">
-            <Link
-              href={"/citas"}
-              className="flex justify-center"
-            >
+            <Link href={"/citas"} className="flex justify-center">
               <Image
                 src={`/icons/calendar.svg`}
                 alt={`icon calendar`}
@@ -67,10 +71,7 @@ export default function Sidebar() {
         </ul>
       </div>
       <div className="mt-auto mx-auto mb-4">
-        <Link
-          href={"/citas"}
-          className="flex justify-center my-4"
-        >
+        <Link href={"/citas"} className="flex justify-center my-4">
           <Image
             src={`/icons/gear.svg`}
             alt={`icon gear`}
@@ -79,15 +80,14 @@ export default function Sidebar() {
             className="md:w-5 md:h-5"
           />
         </Link>
-        <Link href={"/citas"} className="flex justify-center">
           <Image
+            onClick={logout}
             src={`/icons/logout.svg`}
             alt={`icon logout`}
             width={12}
             height={12}
             className="md:w-5 md:h-5"
           />
-        </Link>
       </div>
     </div>
   );

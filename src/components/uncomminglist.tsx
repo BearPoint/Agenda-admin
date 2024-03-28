@@ -1,4 +1,4 @@
-import { Tables } from "@/types/database.types";
+import { Appointment } from '@/types/appointment';
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import dayjs from "dayjs";
 import { cookies } from "next/headers";
@@ -10,15 +10,7 @@ export default async function Uncomminglist() {
     cookies: () => cookieStore,
   });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return redirect("/login");
-
-  const { data: events } = await supabase
-    .from("cita")
-    .select("*, paciente (*)")
+  const { data: events } = await supabase.from("appointment").select(`*, patient(*)`)
     .gt("date", `${dayjs().format("YYYY-MM-DD")}`)
     .lt("date", `${dayjs().add(4, "days").format("YYYY-MM-DD")}`)
     .order("date", { ascending: true });
@@ -26,7 +18,7 @@ export default async function Uncomminglist() {
     <div className="rounded-lg bg-white p-5 container grid grid-rows-[50px_1fr] grid-cols-1">
       <h2 className="font-normal text-[28px]">Eventos proximos</h2>
       <ul className="overflow-y-auto py-3 px-1">
-        {events?.map((item, index) => (
+        {events?.map((item:Appointment, index) => (
           <>
             {!dayjs(events[index - 1]?.date || dayjs().subtract(1,'days')).isSame(
               item.date,
@@ -42,7 +34,7 @@ export default async function Uncomminglist() {
                 {dayjs(item.date).format("HH")}
               </div>
               <div className="bg-green-300 w-full rounded-xl h-24 my-2 p-2 text-zinc-950">
-                Citas con {item.paciente.nombre}
+                Citas con {item.patient.fullname}
               </div>
             </li>
           </>

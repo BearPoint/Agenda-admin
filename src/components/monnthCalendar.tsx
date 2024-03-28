@@ -7,11 +7,12 @@ import dayjs from "dayjs";
 import { eventFormater } from "@/utils/eventFormater";
 import { ModalType, useModal } from "@/hooks/useModal";
 import { Tables } from '@/types/tables';
+import { Appointment } from '@/types/appointment';
 
 export default function MonthCalendar({
   events,
 }: {
-  events: Tables<"cita">[] | null;
+  events: Appointment[] | null;
 }) {
   const { onOpen } = useModal();
   console.log(events)

@@ -29,6 +29,7 @@ export default function AppoimentForm({
           placeholder="John"
           value={name}
           onChange={(e) => onChange("name", e.target.value)}
+          disabled={isDisabled}
         />
       </div>
       <div>
@@ -39,6 +40,7 @@ export default function AppoimentForm({
           defaultDate={dayjs(dateOfBirth)}
           maxDate={dayjs().toDate()}
           onChange={(value) => onChange("date", value.toString())}
+          disabled={isDisabled}
         />
       </div>
       <div>
@@ -54,6 +56,7 @@ export default function AppoimentForm({
           pattern="[0-9]{10}"
           onChange={(e) => onChange("telefono", e.target.value)}
           value={telefono}
+          disabled={isDisabled}
         />
       </div>
       <div className="col-span-2">
