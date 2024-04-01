@@ -43,7 +43,6 @@ export function CreateEventModal() {
   }, [isModalOpen, eventDay]);
 
   const onSelectedPatient = (patient: any) => {
-    console.log(patient);
     setForm((oldValue) =>
       !patient
         ? defaultValues
@@ -63,7 +62,6 @@ export function CreateEventModal() {
     }));
   };
   const onClickHandler = async () => {
-    console.log({eventDay})
     await supabase.from("appointment").insert({
       id_patient: patient?.id,
       id_account: patient?.id_account,

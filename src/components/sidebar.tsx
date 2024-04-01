@@ -12,7 +12,7 @@ export default function Sidebar() {
     router.refresh()
   };
   return (
-    <div className=" hidden md:flex flex-col justify-between">
+    <div className=" hidden md:flex flex-col justify-between bg-white">
       <div>
         <div className="h-28 flex justify-center items-center mb-5">
           <Image
@@ -36,7 +36,7 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="my-7">
-            <Link href={"/pacientes"} className="flex justify-center">
+            <Link href={"/patient"} className="flex justify-center">
               <Image
                 src={`/icons/user-doctor.svg`}
                 alt={`icon user-doctor`}

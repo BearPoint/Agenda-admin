@@ -11,7 +11,6 @@ export default function LoginForm({
 }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  console.log('test')
   return (
     <div className="bg-white relative p-6 pt-8 rounded-sm">
       <div className="w-full h-20 flex justify-center items-center ">Logo</div>
