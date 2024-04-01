@@ -4,6 +4,8 @@ import { DM_Sans } from "next/font/google";
 import Sidebar from "@/components/sidebar";
 import ModalProvider from "@/components/providres/modal-provider";
 import { Toaster } from "@/components/ui/toaster";
+import Header from "@/components/header";
+import { cn } from "@/lib/utils";
 
 const dm_sans = DM_Sans({ weight: ["400"], subsets: ["latin"] });
 
@@ -19,12 +21,15 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={dm_sans.className}>
+      <body className={cn(dm_sans.className, "h-screen")}>
         <ModalProvider />
         <Toaster />
-        <div className="grid grid-cols-2 md:grid-cols-[60px_1fr] lg:grid-cols-dashboard-layout h-screen">
+        <div className="grid gap-x-5 bg-[#F3F9F8] grid-cols-2 md:grid-cols-[60px_1fr] h-screen">
           <Sidebar />
-          <div className="bg-[#F3F9F8] ">{children}</div>
+          <div className="grid grid-rows-[60px_1fr] gap-y-2 h-screen">
+            <Header />
+            {children}
+          </div>
         </div>
       </body>
     </html>
