@@ -27,9 +27,7 @@ export default function Scheduler({ defaultDate, onChange }: Props) {
         .from("appointment")
         .select("*, patient(*)");
 
-      setEvents(EventFormat(events || []));
-      console.log(EventFormat(events || []));
-      console.log(events);
+      setEvents(EventFormat(events || []))
     };
     fetchEvents();
   }, [defaultDate, supabase]);

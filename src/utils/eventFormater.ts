@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 
 export function eventFormater(events: Appointment[] | null){
   if (!events) return []
-  console.log(events)
   return events.map((event) => ({
     title: event.patient.fullname,
     allDay: false,

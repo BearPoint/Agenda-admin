@@ -9,7 +9,6 @@ export async function middleware(req: NextRequest) {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  console.log({path: reqUrl.pathname, isLoginPage, session})
   if (isLoginPage && session) {
     return NextResponse.redirect(reqUrl.host);
   } else if (!session && !isLoginPage) {

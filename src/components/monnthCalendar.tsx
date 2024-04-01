@@ -15,7 +15,6 @@ export default function MonthCalendar({
   events: Appointment[] | null;
 }) {
   const { onOpen } = useModal();
-  console.log(events)
   const dobleClickOnEventHandler = (data: EventClickArg) => {
     const { jsEvent } = data;
     if (jsEvent.detail === 2) {
@@ -29,7 +28,6 @@ export default function MonthCalendar({
   const dobleCLickOnCalendarHandler = (data: any) => {
     const { jsEvent } = data;
     if (jsEvent.detail === 2) {
-      console.log(data.date)
       onOpen({
         type: ModalType.CreateAppoiment,
         data: { eventDay: dayjs(data.date) },

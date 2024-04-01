@@ -12,7 +12,7 @@ export default function SearchPacients({
 }: {
   onSelectedPatient: (patient: Patient | null) => void;
 }) {
-  const { results, getPacients, isLoading, setResults } = useSearchPacients();
+  const { results, getPacients, isLoading } = useSearchPacients({defaultsearch: false});
   const [selectedPatient, setPatient] = useState<Patient | null>({} as Patient);
   const onChangeHandler = debounce((name: string) => {
     getPacients(name);
@@ -26,7 +26,7 @@ export default function SearchPacients({
   const onClickHandler = (patient: Patient) => {
     setPatient(patient);
     onSelectedPatient(patient);
-    setResults([]);
+    results.current = [];
   };
 
   const removeHandler = () => {

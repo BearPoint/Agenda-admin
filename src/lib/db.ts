@@ -16,7 +16,7 @@ export async function connection() {
   })
   
   connection.connect((err)=> {
-    console.log(err)
+    
   })
   return connection
 }

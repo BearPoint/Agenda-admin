@@ -8,12 +8,10 @@ export default async function Home() {
     cookies,
   });
 
-
   const {data} = await supabase.from("appointment").select(`*, patient(*)`);
   
   return (
-    <div className="px-5 grid gap-x-2 grid-cols-1 lg:grid-cols-[2fr_1fr] grid-rows-[40px_1fr] h-screen">
-      <div className='col-span-2'></div>
+    <div className="grid gap-3 grid-cols-1 lg:grid-cols-[2fr_1fr]  grid-rows-1 h-full">
       <MonthCalendar events={data} />
       <Uncomminglist />
     </div>
