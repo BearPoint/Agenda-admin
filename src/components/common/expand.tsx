@@ -7,13 +7,13 @@ import { ReactNode, useState } from "react";
 export default function Expand({
   children,
   title,
-  defaultPotition = false
+  defaultPosition = false
 }: {
-  defaultPotition?: boolean;
+  defaultPosition?: boolean;
   children: ReactNode;
   title: string;
 }) {
-  const [isOpen, setIsOpen] = useState<boolean>(defaultPotition);
+  const [isOpen, setIsOpen] = useState<boolean>(defaultPosition);
 
   return (
     <div className="w-full my-4 py-4 px-2 border-2 border-gray-300 rounded-xl bg-white ">

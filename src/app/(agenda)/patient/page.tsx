@@ -1,4 +1,4 @@
-import PatientRecord from "@/components/patient/patientRecrod";
+import PatientRecord from "@/components/patient/patientRecord";
 import PatientSearch from "@/components/patient/patientSearch";
 
 export default function Paciente() {

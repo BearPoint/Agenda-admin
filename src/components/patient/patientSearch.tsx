@@ -4,14 +4,18 @@ import PatientList from "./patientList";
 import debounce from "just-debounce-it";
 import PatientInputSearch from "./patientInputSearch";
 import { ScrollArea } from "../ui/scroll-area";
+import { usePatientStore } from "@/hooks/usePatientStore";
+import { useEffect } from "react";
 
 export default function PatientSearch() {
-  const { results, isLoading, getPacients } = useSearchPatients({
+  const { results, isLoading, getPatients } = useSearchPatients({
     defaultSearch: true,
   });
+  const updatePatientState = usePatientStore((state) => state.updateIdPatient);
 
+  useEffect(() => () => updatePatientState(""), []);
   const onChangeHandler = debounce((name: string) => {
-    getPacients(name);
+    getPatients(name);
   }, 300);
 
   return (
