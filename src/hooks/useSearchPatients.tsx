@@ -1,6 +1,6 @@
 "use client";
 import { useToast } from "@/components/ui/use-toast";
-import { Patient } from '@/types/Pacient';
+import { Patient } from '@/types/Patient';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 
@@ -33,15 +33,15 @@ export default function useSearchPatient({
     }
   };
 
-  const getPacients = (name: string = "") => {
+  const getPatients = (name: string = "") => {
     setLoading(true);
     fetchData(name);
   };
   useEffect(() => {
     if(defaultSearch) {
-      getPacients();
+      getPatients();
     }
   }, []);
 
-  return { results, getPacients, isLoading };
+  return { results, getPatients, isLoading };
 }

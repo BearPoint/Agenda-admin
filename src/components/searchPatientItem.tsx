@@ -1,7 +1,7 @@
-import { Patient } from '@/types/Pacient';
+import { Patient } from '@/types/Patient';
 import Image from "next/image";
 
-export default function SearchPacientsItem({
+export default function SearchPatientsItem({
   patient: {avatar_url, fullName, phone},
   removeButton,
   removeHandler,

@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { Modal } from "./modal";
-import SearchPacients from "./searchPacients";
-import { Patient } from "@/types/Pacient";
+import SearchPatients from "./searchPatients";
+import { Patient } from "@/types/Patient";
 import dayjs from "dayjs";
 import { ModalType, useModal } from "@/hooks/useModal";
 import { AppointmentInputs } from "@/types/appointment";
-import Scheduler from "./scheshuld";
-import AppoimentForm from "./appimentForm";
-import { EventScheschuld } from "@/types/eventScheshuld";
+import Scheduler from "./schedule";
+import AppointmentForm from "./appointmentForm";
+import { EventScheschuld } from "@/types/eventSchedule";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const defaultValues: AppointmentInputs = {
   name: "",
   dateOfBirth: dayjs().toString(),
-  telefono: "",
-  notas: "",
+  phone: "",
+  notes: "",
 };
 
 export function CreateEventModal() {
@@ -29,8 +29,10 @@ export function CreateEventModal() {
   const [event, setEvent] = useState<EventScheschuld | undefined>(
     {} as EventScheschuld
   );
-  const isModalOpen = isOpen && type === ModalType.CreateAppoiment;
+  const isModalOpen = isOpen && type === ModalType.CreateAppointment;
+
   const supabase = createClientComponentClient();
+
   useEffect(() => {
     if (isModalOpen) {
       setForm({
@@ -48,9 +50,9 @@ export function CreateEventModal() {
         ? defaultValues
         : {
             ...oldValue,
-            name: patient.fullname,
-            dateOfBirth: patient.date_brith,
-            telefono: patient.telefone,
+            name: patient.fullName,
+            dateOfBirth: patient.date_birth,
+            phone: patient.phone,
           }
     );
     setPatient(patient || defaultValues);
@@ -67,7 +69,7 @@ export function CreateEventModal() {
       id_account: patient?.id_account,
       type: "PRIMERA_CITA",
       date: dayjs(eventDay).toISOString(),
-      notes: `${form.notas}${
+      notes: `${form.notes}${
         event?.description ? "\n" + event.description : ""
       }`,
     });
@@ -81,9 +83,9 @@ export function CreateEventModal() {
       <div className="grid grid-cols-2 gap-5 overflow-auto  my-3">
         <div>
           <div>
-            <SearchPacients onSelectedPatient={onSelectedPatient} />
+            <SearchPatients onSelectedPatient={onSelectedPatient} />
           </div>
-          <AppoimentForm
+          <AppointmentForm
             values={form}
             onChange={onChangeFormHandler}
             isDisabled={!!form.name}
