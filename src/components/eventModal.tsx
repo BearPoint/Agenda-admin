@@ -5,7 +5,7 @@ import { ModalType, useModal } from "@/hooks/useModal";
 export default function EventModal() {
   const { isOpen, onClose, type, data } = useModal();
   
-  const isModalOpen = isOpen && type === ModalType.viewAppoiment;
+  const isModalOpen = isOpen && type === ModalType.viewAppointment;
 
   const { event } = data;
   

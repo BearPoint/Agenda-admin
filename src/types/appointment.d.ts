@@ -1,9 +1,9 @@
-import { Patient } from "./Pacient.d";
+import { Patient } from "./Patient";
 export interface AppointmentInputs {
   name: string;
   dateOfBirth: string;
-  telefono: string;
-  notas: string;
+  phone: string;
+  notes: string;
 }
 
 export interface Appointment {

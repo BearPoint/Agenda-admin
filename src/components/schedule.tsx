@@ -3,8 +3,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Tables } from "@/types/tables";
-import { EventScheschuld } from "@/types/eventScheshuld";
+import { EventScheschuld } from "@/types/eventSchedule";
 import FullCalendar from "@fullcalendar/react";
 import { Appointment } from "@/types/appointment";
 

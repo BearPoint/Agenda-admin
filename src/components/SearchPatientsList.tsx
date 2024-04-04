@@ -1,19 +1,19 @@
-import SearchPacientsItem from "./searchPatientItem";
-import { Tables } from '@/types/database.types';
+import { Patient } from "@/types/Patient";
+import SearchPatientsItem from "./searchPatientItem";
 
-export default function SearchPacientsList({
+export default function SearchPatientsList({
   patients,
   onClickHandler,
 }: {
-  patients:Tables<'cita'>[];
-  onClickHandler: (patient: Tables<'cita'>) => void;
+  patients: Patient[];
+  onClickHandler: (patient: Patient) => void;
 }) {
   return (
     <div className="absolute top-12 bg-white w-full z-50 rounded p-2 border border-slate-700/10 ">
       <ul className="overflow-auto h-40">
         {patients.map((patient) => (
           <li className='' key={patient.id} onClick={() => onClickHandler(patient)}>
-            <SearchPacientsItem patient={patient} />
+            <SearchPatientsItem patient={patient} />
           </li>
         ))}
       </ul>

@@ -2,8 +2,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { create } from "zustand";
 
 export enum ModalType {
-  "CreateAppoiment",
-  "viewAppoiment",
+  "CreateAppointment",
+  "viewAppointment",
 }
 
 interface ModalData {

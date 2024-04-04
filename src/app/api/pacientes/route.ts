@@ -1,4 +1,4 @@
-import { Patient } from '@/types/Pacient';
+import { Patient } from '@/types/Patient';
 
 const dataUsuarios: Patient[] = [
   {

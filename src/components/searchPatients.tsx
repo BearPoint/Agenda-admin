@@ -2,25 +2,25 @@
 import useSearchPatients from "@/hooks/useSearchPatients";
 import Image from "next/image";
 import debounce from "just-debounce-it";
-import { Patient } from "@/types/Pacient";
-import SearchPacientsList from "./searchPacientList";
+import { Patient } from "@/types/Patient";
+import SearchPatientsList from "./SearchPatientsList";
 import { SetStateAction, useState } from "react";
-import SearchPacientsItem from "./searchPatientItem";
+import SearchPatientsItem from "./searchPatientItem";
 
-export default function SearchPacients({
+export default function SearchPatients({
   onSelectedPatient,
 }: {
   onSelectedPatient: (patient: Patient | null) => void;
 }) {
-  const { results, getPacients, isLoading } = useSearchPatients({defaultSearch: false});
+  const { results, getPatients, isLoading } = useSearchPatients({defaultSearch: false});
   const [selectedPatient, setPatient] = useState<Patient | null>({} as Patient);
   const onChangeHandler = debounce((name: string) => {
-    getPacients(name);
+    getPatients(name);
   }, 300);
 
-  const onFocushandler = (e: any) => {
+  const onFocusHandler = (e: any) => {
     if (e.target.value === "" && results.length === 0) {
-      getPacients();
+      getPatients();
     }
   };
   const onClickHandler = (patient: Patient) => {
@@ -38,7 +38,7 @@ export default function SearchPacients({
         Search
       </label>
       {selectedPatient?.id ? (
-        <SearchPacientsItem
+        <SearchPatientsItem
           patient={selectedPatient}
           removeButton={true}
           removeHandler={removeHandler}
@@ -61,14 +61,14 @@ export default function SearchPacients({
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Buscar paciente..."
             autoComplete="off"
-            onFocus={onFocushandler}
+            onFocus={onFocusHandler}
           />
           {isLoading ? (
             <div className="absolute top-12 bg-white w-full z-50 rounded p-2 border border-slate-700/10 text-center">
               Loading...
             </div>
           ) : results.length ? (
-            <SearchPacientsList
+            <SearchPatientsList
               patients={results}
               onClickHandler={onClickHandler}
             />

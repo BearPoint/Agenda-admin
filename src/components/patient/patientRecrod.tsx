@@ -1,7 +1,7 @@
 "use client";
 
 import { usePatientStore } from "@/hooks/usePatientStore";
-import { Patient } from "@/types/Pacient";
+import { Patient } from "@/types/Patient";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import Expand from "../common/expand";

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Patient } from "@/types/Pacient";
+import { Patient } from "@/types/Patient";
 import { getInitialName } from "@/utils/getInitialsName";
 import { getYearsAll } from "@/utils/getYearsAll";
 import { ReactNode } from "react";
@@ -11,7 +11,7 @@ export default function PatientGeneralInformation({
   information: Patient;
 }) {
   const {
-    fullname,
+    fullName,
     date_birth,
     gender,
     address,
@@ -28,7 +28,7 @@ export default function PatientGeneralInformation({
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-none mt-4 mb-2">
         <Item label="Nombre" className="">
           <div className="">
-            {fullname} {getInitialName(fullname)}
+            {fullName} {getInitialName(fullName)}
           </div>
         </Item>
         <Item label="Edad">

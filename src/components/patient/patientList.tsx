@@ -3,7 +3,7 @@ import useSearchPatients from "@/hooks/useSearchPatients";
 import PatientItem from "./patientItem";
 import Loading from "../Loading";
 import { useEffect } from "react";
-import { Patient } from '@/types/Pacient';
+import { Patient } from '@/types/Patient';
 
 
 interface Props {
