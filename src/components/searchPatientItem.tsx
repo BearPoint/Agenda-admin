@@ -1,12 +1,12 @@
-import { Tables } from '@/types/tables';
+import { Patient } from '@/types/Pacient';
 import Image from "next/image";
 
 export default function SearchPacientsItem({
-  patient: {avatar_url, fullname, telefone},
+  patient: {avatar_url, fullName, phone},
   removeButton,
   removeHandler,
 }: {
-  patient: Tables<"paciente">;
+  patient: Patient;
   removeButton?: boolean;
   removeHandler?: () => void;
 }) {
@@ -23,8 +23,8 @@ export default function SearchPacientsItem({
       </div>
 
       <div>
-        <div>{fullname}</div>
-        <div>{telefone}</div>
+        <div>{fullName}</div>
+        <div>{phone}</div>
       </div>
       {removeButton ? (
         <div onClick={removeHandler} className="mr-2 m-auto">

@@ -4,14 +4,14 @@ import { getYearsAll } from '@/utils/getYearsAll';
 
 export default function PatientItem({
   id,
-  fullname,
-  telefone,
-  date_brith,
+  fullName,
+  phone,
+  date_birth,
 }: {
   id:string
-  fullname: string;
-  date_brith: string;
-  telefone: string;
+  fullName: string;
+  date_birth: string;
+  phone: string;
 }) {
   const updateIdPatient = usePatientStore((state)=> state.updateIdPatient)
 
@@ -21,10 +21,10 @@ export default function PatientItem({
         JP
       </div>
       <div className="pl-4 w-full">
-        <div>{fullname}</div>
+        <div>{fullName}</div>
         <div className="flex justify-between">
-          <div>{getYearsAll(date_brith)} años</div>
-          <div>{telefone}</div>
+          <div>{getYearsAll(date_birth)} años</div>
+          <div>{phone}</div>
         </div>
       </div>
     </li>

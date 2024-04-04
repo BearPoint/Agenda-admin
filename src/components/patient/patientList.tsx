@@ -1,5 +1,5 @@
 "use client";
-import useSearchPacients from "@/hooks/useSearchPacients";
+import useSearchPatients from "@/hooks/useSearchPatients";
 import PatientItem from "./patientItem";
 import Loading from "../Loading";
 import { useEffect } from "react";
@@ -19,13 +19,13 @@ export default function PatientList({isLoading, results}: Props) {
 
   return (
     <ul>
-      {results?.map(({ id, fullname, telefone, date_brith }) => (
+      {results?.map(({ id, fullName, phone, date_birth }) => (
         <PatientItem
           key={id}
           id={id}
-          fullname={fullname}
-          telefone={telefone}
-          date_brith={date_brith}
+          fullName={fullName}
+          phone={phone}
+          date_birth={date_birth}
         />
       ))}
     </ul>
