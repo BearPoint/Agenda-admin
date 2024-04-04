@@ -1,13 +1,13 @@
 "use client";
-import useSearchPacients from "@/hooks/useSearchPacients";
+import useSearchPatients from "@/hooks/useSearchPatients";
 import PatientList from "./patientList";
 import debounce from "just-debounce-it";
 import PatientInputSearch from "./patientInputSearch";
 import { ScrollArea } from "../ui/scroll-area";
 
 export default function PatientSearch() {
-  const { results, isLoading, getPacients } = useSearchPacients({
-    defaultsearch: true,
+  const { results, isLoading, getPacients } = useSearchPatients({
+    defaultSearch: true,
   });
 
   const onChangeHandler = debounce((name: string) => {

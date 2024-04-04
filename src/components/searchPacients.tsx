@@ -1,5 +1,5 @@
 'use client'
-import useSearchPacients from "@/hooks/useSearchPacients";
+import useSearchPatients from "@/hooks/useSearchPatients";
 import Image from "next/image";
 import debounce from "just-debounce-it";
 import { Patient } from "@/types/Pacient";
@@ -12,7 +12,7 @@ export default function SearchPacients({
 }: {
   onSelectedPatient: (patient: Patient | null) => void;
 }) {
-  const { results, getPacients, isLoading } = useSearchPacients({defaultsearch: false});
+  const { results, getPacients, isLoading } = useSearchPatients({defaultSearch: false});
   const [selectedPatient, setPatient] = useState<Patient | null>({} as Patient);
   const onChangeHandler = debounce((name: string) => {
     getPacients(name);
@@ -26,7 +26,6 @@ export default function SearchPacients({
   const onClickHandler = (patient: Patient) => {
     setPatient(patient);
     onSelectedPatient(patient);
-    results.current = [];
   };
 
   const removeHandler = () => {

@@ -4,19 +4,18 @@ export interface Patient {
   id: string;
   id_patient: string
   id_account: string
-  fullname: string;
-  date_brith: string;
+  fullName: string;
+  date_birth: string;
   avatar_url: string;
   medical_history: string;
-  medicin: string;
+  medicine: string;
   allergy: string;
   email: string;
-  telefone: string;
+  phone: string;
   gender: string;
   address: string;
-  estado_civil: string,
   religion: string,
-  place_brith: string,
+  place_birth: string,
   scholarship: string,
   marital_status: string,
   emergency_contact: EmergencyContact[]

@@ -4,10 +4,10 @@ import { Patient } from '@/types/Pacient';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 
-export default function useSearchPacients({
-  defaultsearch,
+export default function useSearchPatient({
+  defaultSearch,
 }: {
-  defaultsearch: boolean;
+  defaultSearch: boolean;
 }) {
   const [results, setResults] = useState<Patient[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -19,7 +19,7 @@ export default function useSearchPacients({
       const { data, error } = await supabase
         .from("patient")
         .select("*")
-        .ilike("fullname", `%${name}%`);
+        .ilike("fullName", `%${name}%`);
 
         setResults(data || [])
     } catch (error) {
@@ -38,7 +38,7 @@ export default function useSearchPacients({
     fetchData(name);
   };
   useEffect(() => {
-    if(defaultsearch) {
+    if(defaultSearch) {
       getPacients();
     }
   }, []);
