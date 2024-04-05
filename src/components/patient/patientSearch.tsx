@@ -14,12 +14,13 @@ export default function PatientSearch() {
   const updatePatientState = usePatientStore((state) => state.updateIdPatient);
 
   useEffect(() => () => updatePatientState(""), []);
+
   const onChangeHandler = debounce((name: string) => {
     getPatients(name);
   }, 300);
 
   return (
-    <div className="grid grid-cols-1 grid-rows-[100px_1fr]">
+    <div className="grid grid-cols-1 grid-rows-[100px_1fr] border-r-2 px-3 shadow bg-white">
       <PatientInputSearch onChangeHandler={onChangeHandler} />
 
       <ScrollArea className="">
