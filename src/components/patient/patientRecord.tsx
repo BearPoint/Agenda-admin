@@ -26,9 +26,13 @@ export default function PatientRecord() {
     }
   }, [idPatient]);
 
+  if(idPatient === '' ){
+    return <div>elige un paciente</div>
+  }
+
   return (
     <ScrollArea className="px-4">
-      <Expand title={"Informacion General"} defaultPotition={false}>
+      <Expand title={"Informacion General"} defaultPosition={false}>
         <PatientGeneralInformation information={patient}/>
       </Expand>
       <Expand title={"Informacion General"}>
