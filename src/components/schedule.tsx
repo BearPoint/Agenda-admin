@@ -3,13 +3,13 @@ import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { EventScheschuld } from "@/types/eventSchedule";
+import { EventSchedule } from "@/types/eventSchedule";
 import FullCalendar from "@fullcalendar/react";
 import { Appointment } from "@/types/appointment";
 
 interface Props {
   defaultDate: Dayjs;
-  onChange: (value?: EventScheschuld) => void;
+  onChange: (value?: EventSchedule) => void;
 }
 
 export default function Scheduler({ defaultDate, onChange }: Props) {
@@ -29,7 +29,7 @@ export default function Scheduler({ defaultDate, onChange }: Props) {
       setEvents(EventFormat(events || []))
     };
     fetchEvents();
-  }, [defaultDate, supabase]);
+  }, [defaultDate]);
 
   return (
     <div className="overflow-auto">
@@ -39,9 +39,9 @@ export default function Scheduler({ defaultDate, onChange }: Props) {
         plugins={[resourceTimeGridPlugin]}
         initialView="resourceTimeGridDay"
         dateClick={(e)=>console.log(e)}
-        editable={true}
+        
         allDaySlot={false}
-        duration={{days: 2}}
+        duration={{days: 3}}
         schedulerLicenseKey="XXXXXXXXXX-XXX-XXXXXXXXXX"
         events={events}
       />

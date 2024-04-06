@@ -1,4 +1,4 @@
-export interface EventScheschuld extends Event {
+export interface EventSchedule extends Event {
   allDay: boolean;
   conference: string;
   dateStart: Date;
