@@ -1,39 +1,26 @@
-"use client";
-
-import { usePatientStore } from "@/hooks/usePatientStore";
-import { Patient } from "@/types/Patient";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useEffect, useState } from "react";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Expand from "../common/expand";
 import { ScrollArea } from "../ui/scroll-area";
 import PatientGeneralInformation from './patientGeneralInformation';
+import { cookies } from "next/headers";
 
-export default function PatientRecord() {
-  const [patient, setPatient] = useState<Patient>({} as Patient);
-  const idPatient = usePatientStore((state) => state.idPatient);
-  const supabase = createClientComponentClient();
+export default async function PatientRecord({ patientId }: { patientId: string | undefined }) {
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from("patient")
-        .select("*, emergency_contact(*)")
-        .eq("id", idPatient);
-      setPatient(data ? data[0] : {});
-    };
-    if (idPatient != "") {
-      fetchData();
-    }
-  }, [idPatient]);
+  const supabase = await createServerComponentClient({ cookies });
+  const { data: patient, error } = await supabase.from('patient').select('*, emergency_contact(*)').eq('id', patientId);
 
-  if(idPatient === '' ){
+  if (!patientId) {
     return <div>elige un paciente</div>
+  }
+
+  if (!patient || !patient[0]) {
+    return <div>Error Patient not found</div>
   }
 
   return (
     <ScrollArea className="px-4">
       <Expand title={"Informacion General"} defaultPosition={false}>
-        <PatientGeneralInformation information={patient}/>
+        <PatientGeneralInformation information={patient[0]} />
       </Expand>
       <Expand title={"Informacion General"}>
         <pre>{JSON.stringify(patient, undefined, 2)}</pre>

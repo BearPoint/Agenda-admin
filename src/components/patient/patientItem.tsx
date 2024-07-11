@@ -1,6 +1,7 @@
 'use client'
-import { usePatientStore } from '@/hooks/usePatientStore';
 import { getYearsAll } from '@/utils/getYearsAll';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 
 export default function PatientItem({
   id,
@@ -13,7 +14,19 @@ export default function PatientItem({
   date_birth: string;
   phone: string;
 }) {
-  const updateIdPatient = usePatientStore((state)=> state.updateIdPatient)
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const { replace } = useRouter()
+
+  const updateIdPatient = (value: string) => {
+    const params = new URLSearchParams(searchParams)
+    if (value) {
+      params.set('patientId', value)
+    } else {
+      params.delete('patientId')
+    }
+    replace(`${pathname}?${params.toString()}`)
+  }
 
   return (
     <li className="flex  border-b-2 border-gray-200 py-2 cursor-pointer" onClick={()=> updateIdPatient(id)}>

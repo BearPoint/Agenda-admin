@@ -72,11 +72,14 @@ export function CreateEventModal() {
       id_patient: patient?.id,
       id_account: patient?.id_account,
       type: "PRIMERA_CITA",
-      date: dayjs(eventDay).toISOString(),
+      date: dayjs(eventDay
+
+      ).toISOString(),
       notes: `${form.notes}${
         event?.description ? "\n" + event.description : ""
       }`,
     });
+    route.refresh()
     onClose()
   };
   return (
