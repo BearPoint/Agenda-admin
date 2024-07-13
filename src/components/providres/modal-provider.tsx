@@ -1,7 +1,7 @@
 'use client'
 import { CreateEventModal } from '../createEventModal';
-import {useState, useEffect} from 'react'
 import EventModal from '../eventModal';
+import PreviewPatientModal from '../dashboard/previewPatientModal';
 
 export default function ModalProvider (){
   
@@ -9,6 +9,7 @@ export default function ModalProvider (){
     <>
       <CreateEventModal/>
       <EventModal />
+      <PreviewPatientModal/>
     </>
   )
 }

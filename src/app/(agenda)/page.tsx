@@ -1,5 +1,5 @@
 
-import MonthCalendar from "@/components/monnthCalendar";
+import MonthCalendar from "@/components/dashboard/monnthCalendar";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
@@ -10,8 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import SearchPatients from "@/components/searchPatients";
-import DashboardSearchPatient from "@/components/dashboardSearchPatient";
+import DashboardSearchPatient from "@/components/dashboard/dashboardSearchPatient";
 
 export default async function Home() {
   const supabase = createServerComponentClient({
@@ -19,10 +18,6 @@ export default async function Home() {
   });
 
   const { data } = await supabase.from("appointment").select(`*, patient(*)`);
-
-  const onSelectedPatient = (patient: any) => {
-    console.log(patient);
-  };
 
   return (
     <div className="flex flex-col mx-5">

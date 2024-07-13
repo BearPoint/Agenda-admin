@@ -3,8 +3,8 @@ import useSearchPatients from "@/hooks/useSearchPatients";
 import Image from "next/image";
 import debounce from "just-debounce-it";
 import { Patient } from "@/types/Patient";
-import SearchPatientsList from "./SearchPatientsList";
-import { SetStateAction, useState } from "react";
+import SearchPatientsList from "@/components/common/searchPatient/SearchPatientsList";
+import { useState } from "react";
 import SearchPatientsItem from "./searchPatientItem";
 
 export default function SearchPatients({

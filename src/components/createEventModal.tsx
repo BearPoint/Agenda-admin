@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Modal } from "./modal";
-import SearchPatients from "./searchPatients";
+import SearchPatients from "@/components/common/searchPatient/searchPatients";
 import { Patient } from "@/types/Patient";
 import dayjs from "dayjs";
 import { ModalType, useModal } from "@/hooks/useModal";
