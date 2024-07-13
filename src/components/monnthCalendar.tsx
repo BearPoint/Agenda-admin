@@ -34,8 +34,7 @@ export default function MonthCalendar({
     }
   };
   return (
-    <>
-      <div className="rounded-lg bg-white p-5 relative">
+      <div className="rounded-lg bg-white relative h-full">
         <FullCalendar
           height={"100%"}
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -52,6 +51,5 @@ export default function MonthCalendar({
           initialEvents={eventFormatter(events)}
         />
       </div>
-    </>
   );
 }
