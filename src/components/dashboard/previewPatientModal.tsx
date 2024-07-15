@@ -46,9 +46,9 @@ export default function PreviewPatientModal() {
           <DropdownMenu>
             <DropdownMenuTrigger className="bg-primary text-white py-1 px-3 w-full h-[42px]">Acciones</DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={()=> router.push(`/patient/profile/consulta?patientId=${data?.patient?.id}`)}>Nueva Consulta</DropdownMenuItem>
-              <DropdownMenuItem>Ver Expediente</DropdownMenuItem>
-              <DropdownMenuItem>Editar Expediente</DropdownMenuItem>
+              <DropdownMenuItem onClick={()=> router.push(`/patient/appointment/${data?.patient?.id}`)}>Nueva Consulta</DropdownMenuItem>
+              <DropdownMenuItem onClick={()=> router.push(`/patient/${data?.patient?.id}`)}>Ver Expediente</DropdownMenuItem>
+              <DropdownMenuItem onClick={()=> router.push(`/patient/edit/${data?.patient?.id}`)}>Editar Expediente</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           </div>
