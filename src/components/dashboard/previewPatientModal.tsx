@@ -17,8 +17,6 @@ export default function PreviewPatientModal() {
   const { isOpen, onClose, type, data } = useModal();
   const router= useRouter()
   const isModalOpen = isOpen && type === ModalType.previewPatientModal;
-  console.log({ data })
-  
 
   return (
     <Modal

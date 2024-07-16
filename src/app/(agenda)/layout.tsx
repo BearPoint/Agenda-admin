@@ -24,7 +24,7 @@ export default async function RootLayout({
       <body className={cn(dm_sans.className, "h-screen")}>
         <ModalProvider />
         <Toaster />
-        <div className="grid gap-x-5 bg-white grid-cols-2 md:grid-cols-[250px_1fr] h-screen">
+        <div className="grid gap-x-5 bg-white grid-cols-1 md:grid-cols-[250px_1fr] h-screen">
           <Sidebar />
           {children}
         </div>
