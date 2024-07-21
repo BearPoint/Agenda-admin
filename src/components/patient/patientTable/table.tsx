@@ -6,7 +6,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table"
- 
+
 import {
   Table,
   TableBody,
@@ -28,13 +28,15 @@ import {
 import { PatientTable } from "@/types/patientTable";
 import dateFormatter from "@/utils/dateFormater";
 import { MoreHorizontal } from "lucide-react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
- 
+
 export const columns: ColumnDef<PatientTable>[] = [
   {
     accessorKey: "fullName",
@@ -47,8 +49,8 @@ export const columns: ColumnDef<PatientTable>[] = [
   {
     accessorKey: "data",
     header: "Ultima Consulta",
-    cell: ({row})=> {
-      if(!row.original.appointment.length) {
+    cell: ({ row }) => {
+      if (!row.original.appointment.length) {
         return <div className="">-</div>
       }
       return <div className="">{dateFormatter(row.original.appointment[0].date)}</div>
@@ -57,7 +59,7 @@ export const columns: ColumnDef<PatientTable>[] = [
   {
     accessorKey: "action",
     header: "",
-    cell: ({row})=> {
+    cell: ({ row }) => {
       return <div className="">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -68,8 +70,16 @@ export const columns: ColumnDef<PatientTable>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem> Iniciar Cita</DropdownMenuItem>
-            <DropdownMenuItem> Ver expediente</DropdownMenuItem>
+            <DropdownMenuItem> 
+              <Link href={`/patient/${row.original.id}`}>
+              Ver Expediente
+            </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem >
+              <Link href={`/cita/${row.original.id}`}>
+                Iniciar Cita
+              </Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -82,13 +92,14 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter()
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel()
   })
- 
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -101,9 +112,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 )
               })}
@@ -116,8 +127,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="cursor-pointer "
-                onClick={()=> console.log('click')}
+                className="cursor-pointer"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -129,7 +139,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                
+
               </TableCell>
             </TableRow>
           )}

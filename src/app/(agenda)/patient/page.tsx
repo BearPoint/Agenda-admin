@@ -13,7 +13,7 @@ export default function PatientPage() {
   const fetchData = async () => {
     const isNumber = searchQuery.length >= 1 && !isNaN(searchQuery as any) 
     const { data } = await supabase.from('patient')
-      .select('fullName,phone, appointment(date)')
+      .select('id,fullName,phone, appointment(date)')
       .ilike(isNumber ? "phone" : 'fullName', `%${searchQuery}%`)
       .order('date', { ascending: false, foreignTable: 'appointment' })
       .limit(1, { foreignTable: 'appointment' })
