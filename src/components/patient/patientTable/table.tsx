@@ -57,6 +57,14 @@ export const columns: ColumnDef<PatientTable>[] = [
     }
   },
   {
+    accessorKey: "created_at",
+    header: "desde",
+    
+    cell: ({ row }) => {
+      return <div className="">{dateFormatter(row.original.created_at)}</div>
+    }
+  },
+  {
     accessorKey: "action",
     header: "",
     cell: ({ row }) => {
@@ -108,7 +116,7 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="">
                     {header.isPlaceholder
                       ? null
                       : flexRender(

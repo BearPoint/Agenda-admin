@@ -1,5 +1,14 @@
 import { EmergencyContact } from './emergency_contact';
 
+export interface NewPatient {
+  fullName: string;
+  date_birth: string;
+  allergy: string;
+  email: string;
+  phone: string;
+  gender: 'Mujer' | 'Hombre' | 'otro' | '';
+}
+
 export interface Patient {
   id: string;
   id_patient: string

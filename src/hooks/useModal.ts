@@ -5,7 +5,8 @@ import { create } from "zustand";
 export enum ModalType {
   "CreateAppointment",
   "viewAppointment",
-  "previewPatientModal"
+  "previewPatientModal",
+  "createPatientModal"
 }
 
 interface ModalData {
