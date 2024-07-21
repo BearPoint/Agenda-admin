@@ -11,7 +11,7 @@ export default function PatientPage() {
   const [patients, setPatient] = useState<PatientTable[]>([])
   const [searchQuery, setSearchQuery] = useState<string>('')
   const supabase = createClientComponentClient()
-  const {onOpen} = useModal();
+  const {onOpen, isOpen} = useModal();
 
   const fetchData = async () => {
     const isNumber = searchQuery.length >= 1 && !isNaN(searchQuery as any) 
@@ -25,6 +25,11 @@ export default function PatientPage() {
   useEffect(() => {
     fetchData()
   }, [searchQuery])
+  useEffect(() => {
+    if(!isOpen){
+      fetchData()
+    }
+  }, [isOpen])
 
   const onClickNewPatient= ()=> {
     onOpen({
