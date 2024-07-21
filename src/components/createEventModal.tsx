@@ -9,6 +9,7 @@ import Scheduler from "./schedule";
 import AppointmentForm from "./appointmentForm";
 import { EventScheschuld } from "@/types/eventSchedule";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 const defaultValues: AppointmentInputs = {
   name: "",
@@ -24,6 +25,7 @@ export function CreateEventModal() {
     isOpen,
     type,
   } = useModal();
+  const router = useRouter()
   const [form, setForm] = useState<AppointmentInputs>(defaultValues);
   const [patient, setPatient] = useState<Patient>({} as Patient);
   const [event, setEvent] = useState<EventScheschuld | undefined>(
@@ -49,11 +51,11 @@ export function CreateEventModal() {
       !patient
         ? defaultValues
         : {
-            ...oldValue,
-            name: patient.fullName,
-            dateOfBirth: patient.date_birth,
-            phone: patient.phone,
-          }
+          ...oldValue,
+          name: patient.fullName,
+          dateOfBirth: patient.date_birth,
+          phone: patient.phone,
+        }
     );
     setPatient(patient || defaultValues);
   };
@@ -64,15 +66,18 @@ export function CreateEventModal() {
     }));
   };
   const onClickHandler = async () => {
-    await supabase.from("appointment").insert({
+    const { error } = await supabase.from("appointment").insert({
       id_patient: patient?.id,
       id_account: patient?.id_account,
       type: "PRIMERA_CITA",
       date: dayjs(eventDay).toISOString(),
-      notes: `${form.notes}${
-        event?.description ? "\n" + event.description : ""
-      }`,
+      notes: `${form.notes}${event?.description ? "\n" + event.description : ""
+        }`,
     });
+    if (!error) {
+      onClose()
+    }
+
   };
   return (
     <Modal
