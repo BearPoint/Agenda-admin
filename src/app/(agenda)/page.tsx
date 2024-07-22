@@ -1,5 +1,5 @@
 
-import MonthCalendar from "@/components/dashboard/monnthCalendar";
+import Schedule from "@/components/dashboard/schedule";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
@@ -18,7 +18,6 @@ export default async function Home() {
   });
 
   const { data } = await supabase.from("appointment").select(`*, patient(*)`);
-
   return (
     <div className="flex flex-col mx-5">
       <div className="grid grid-cols-[1fr_200px] my-5 ">
@@ -38,7 +37,7 @@ export default async function Home() {
         </div>
       </div>
       <div className="flex-1">
-        <MonthCalendar events={data} />
+        <Schedule events={data} />
       </div>
     </div>
     // <div className="grid gap-3 grid-cols-1 lg:grid-cols-[2fr_1fr]  grid-rows-1 h-full">
