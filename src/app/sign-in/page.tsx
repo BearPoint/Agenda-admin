@@ -8,9 +8,9 @@ export default function SignIn() {
     <div className="h-screen flex justify-center items-center bg-image text-stone-700">
       <Card>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Create an account</CardTitle>
+        <CardTitle className="text-2xl">Iniciar Seccion </CardTitle>
         <CardDescription>
-          Enter your email below to create your account
+          da click aqui para ingresar
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
