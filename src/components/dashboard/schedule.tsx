@@ -1,66 +1,115 @@
-'use client'
+"use client";
 
-import { EventClickArg } from "@fullcalendar/core";
 import dayjs from "dayjs";
 import { eventFormatter } from "@/utils/eventFormatter";
-import { ModalType, useModal } from "@/hooks/useModal"
-import { Appointment } from '@/types/appointment';
-import { Browser, Internationalization } from '@syncfusion/ej2-base';
-import { Agenda, Day, Inject, ScheduleComponent, ViewDirective, ViewsDirective, WorkWeek } from "@syncfusion/ej2-react-schedule";
+import { Appointment } from "@/types/appointment";
+import { Browser, closest, isNullOrUndefined } from "@syncfusion/ej2-base";
+import {
+  Agenda,
+  CurrentAction,
+  Day,
+  Inject,
+  ScheduleComponent,
+  ViewDirective,
+  ViewsDirective,
+  WorkWeek,
+} from "@syncfusion/ej2-react-schedule";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import PatientProfile from "../common/patientProfile";
 import { Patient } from "@/types/Patient";
+import "dayjs/locale/es-mx";
+import SearchPatients from "../common/searchPatient/searchPatients";
+import { useRef, useState } from "react";
+import { Label } from "../ui/label";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export default function Schedule({
-  events,
-}: {
-  events: Appointment[] | null;
-}) {
-  const { onOpen } = useModal();
-  let intl: Internationalization = new Internationalization();
-  console.log(events)
-  const doubleClickOnEventHandler = (data: EventClickArg) => {
-    const { jsEvent } = data;
-    if (jsEvent.detail === 2) {
-      onOpen({
-        type: ModalType.viewAppointment,
-        data: { event: data.event }
-      });
-    }
-  };
-  const timelineEventTemplate = (props) => {
-    return (
-      <div className="template-wrap" style={{ background: props.PrimaryColor }}>
-        <div className="subject" style={{ background: props.SecondaryColor, borderRightWidth: 15, borderLeftWidth: 15, borderLeftColor: props.PrimaryColor, borderRightColor: props.PrimaryColor, borderLeftStyle: 'solid', borderRightStyle: 'solid' }}>{props.Subject}</div>
-      </div>
-    );
+interface EventSchedule {
+  StartTime: string,
+  EndTime: string,
+  Description: string,
+  elementType: string
+  PrimaryColor: string,
+  SecondaryColor: string,
+  Subject: string
+  extendedProps: {
+    patient: Patient
   }
-  const getTimeString = (value: Date) => {
-    return intl.formatDate(value, { skeleton: 'hm' });
-  }
-  const eventTemplate = (props) => {
-    return (
-      <div className="template-wrap" style={{ background: props.SecondaryColor }}>
-        <div className="subject" style={{ background: props.PrimaryColor }}>{props.Subject}</div>
-        <div className="time" style={{ background: props.PrimaryColor }}> Time: {getTimeString(props.StartTime)} - {getTimeString(props.EndTime)}</div>
-        <div className="event-description">{props.Description}</div>
-        <div className="footer" style={{ background: props.PrimaryColor }}></div>
-      </div>
-    );
-  }
+}
 
-
+export default function Schedule({ events }: { events: Appointment[] | null }) {
+  dayjs.locale("es-mx");
+  let scheduleObj = useRef<ScheduleComponent>(null);
+  const [patient, setPatient] = useState<Patient | null>(null)
+  const notesRef = useRef(null)
+  const patientRef = useRef<Patient | null>(null)
+  const supabase = createClientComponentClient()
   const getHeaderTitle = (data: Record<string, any>): string => {
-    return (data.elementType === 'cell') ? 'Add Appointment' : 'Appointment Details';
-  }
+    return data.elementType === "cell"
+      ? "Crear Cita"
+      : "detealles de cita";
+  };
 
-  const getHeaderDetails = (data: { [key: string]: Date }): string => {
-    return intl.formatDate(data.StartTime, { type: 'date', skeleton: 'full' }) + ' (' +
-      intl.formatDate(data.StartTime, { skeleton: 'hm' }) + ' - ' +
-      intl.formatDate(data.EndTime, { skeleton: 'hm' }) + ')';
+  const getHeaderDetails = (data: EventSchedule): string => {
+    return (
+      dayjs(data.StartTime).format("dddd, MMMM D, YYYY") +
+      " (" +
+      dayjs(data.StartTime).format("hh:mm") +
+      " - " +
+      dayjs(data.StartTime).add(1, 'hour').format("hh:mm") +
+      ")"
+    );
+  };
+
+  const buttonClickActions = async (e: Event) => {
+    const quickPopup: HTMLElement = closest(e.target as HTMLElement, '.e-quick-popup-wrapper') as HTMLElement;
+    console.log({patient: patientRef?.current})
+    const getSlotData: Function = (): Record<string, any> => ({
+      id: scheduleObj?.current?.getEventMaxID(),
+      extendedProps: {
+        patient: patientRef.current
+      },
+      Subject: patientRef.current?.fullName,
+      StartTime: new Date(scheduleObj?.current?.activeCellsData?.startTime),
+      EndTime: new Date((scheduleObj?.current?.activeCellsData?.endTime)),
+      IsAllDay: false,
+      Description: isNullOrUndefined(notesRef.current.value) ? 'Add notes' : notesRef.current.value
+
+    });
+    console.log(getSlotData())
+    if ((e.target as HTMLElement).id === 'add') {
+      const getData = getSlotData()
+      const { data: userData, error: userError } = await supabase.auth.getUser()
+      const { data, error } = await supabase.from('appointment').insert({
+        id_patient: patientRef.current?.id,
+        id_account: userData.user?.id,
+        date: dayjs(getData.StartTime).format(),
+        notes: getData.Description
+      })
+      const addObj: Record<string, any> = getSlotData();
+      scheduleObj?.current?.addEvent(addObj);
+
+    } else if ((e.target as HTMLElement).id === 'delete') {
+
+      const eventDetails: Record<string, any> = scheduleObj?.current?.activeEventData.event as Record<string, any>;
+      let currentAction: CurrentAction = 'Delete';
+      
+      if (eventDetails.RecurrenceRule) {
+        currentAction = 'DeleteOccurrence';
+      }
+      scheduleObj?.current?.deleteEvent(eventDetails, currentAction);
+    } else {
+      const isCellPopup: boolean = (quickPopup.firstElementChild as HTMLElement).classList.contains('e-cell-popup');
+      const eventDetails: Record<string, any> = isCellPopup ? getSlotData() : scheduleObj?.current?.activeEventData.event as Record<string, any>;
+      let currentAction: CurrentAction = isCellPopup ? 'Add' : 'Save';
+      if (eventDetails.RecurrenceRule) {
+        currentAction = 'EditOccurrence';
+      }
+      scheduleObj?.current?.openEditor(eventDetails, currentAction, true);
+    }
+    scheduleObj?.current?.closeQuickInfoPopup();
   }
-  const headerTemplate = (props: { [key: string]: Date }) => {
+  const headerTemplate = (props: EventSchedule) => {
     return (
       <div className="quick-info-header px-4 py-4 bg-white">
         <div className="quick-info-header-content text-base font-medium leading-none text-muted-foreground">
@@ -69,59 +118,104 @@ export default function Schedule({
         </div>
       </div>
     );
-  }
-  const contentTemplate = (props: { [key: string]: string | Patient }) => {
-    console.log({props})
+  };
+  const contentTemplate = (props: EventSchedule) => {
+    console.log({ props });
     return (
       <div className="quick-info-content">
-        {props.elementType === 'cell' ?
+        {props.elementType === "cell" ? (
           <div className="e-cell-content">
             <div className="content-area">
-              <Input id="title" placeholder="Title" />
-            </div>
-            <div className="content-area">
-              <DropDownListComponent id="eventType"  dataSource={roomData} fields={{ text: "Name", value: "Id" }} placeholder="Choose Type" index={0} popupHeight="200px" />
-            </div>
-            <div className="content-area">
-              <TextBoxComponent id="notes" ref={notesObj} placeholder="Notes" />
+              <div>
+                <Label className="">Paciente</Label>
+                <SearchPatients onSelectedPatient={(patient) => patientRef.current = patient} />
+              </div>
+              <div className="mt-2">
+                <Label className="">Anotaciones</Label>
+                <Input id="notes" ref={notesRef} autoComplete="off" className="mt-2" />
+              </div>
             </div>
           </div>
-          :
+        ) : (
           <div className="event-content">
-            <PatientProfile patient={props.extendedProps.patient}/>
-            <div className="notes-wrap mt-4">
+            {props?.extendedProps?.patient && <PatientProfile patient={props?.extendedProps?.patient} />}
+            {props?.description != '' && <div className="notes-wrap mt-4">
               <label className="font-bold">Notes</label>:
               <p>{props.description}</p>
-            </div>
+            </div>}
           </div>
-        }
+        )}
       </div>
     );
-  }
+  };
 
   const footerTemplate = (props: Record<string, any>) => {
     return (
-      <div className="quick-info-footer">
-        {props.elementType == "cell" ?
+      <div className=" mr-4 mb-3">
+        {props.elementType == "cell" ? (
           <div className="cell-footer">
-            <Button id="more-details" className='e-flat' content="" onClick={()=>{}}>More Details</Button>
-            <Button id="add" className='e-flat' content="Add" isPrimary={true} onClick={()=>{}}>Add</Button>
+            <Button
+              id="more-details"
+              className="e-flat mr-5"
+              variant={'outline'}
+              content=""
+              onClick={(e) => buttonClickActions(e)}
+            >
+              More Details
+            </Button>
+            <Button
+              id="add"
+              className="e-flat"
+              content="Add"
+              onClick={(e) => buttonClickActions(e)}
+            >
+              Add
+            </Button>
           </div>
-          :
+        ) : (
           <div className="event-footer">
-            <Button id="delete" className='e-flat' content="Delete" onClick={()=>{}} >Delete</Button>
-            <Button id="more-details" className='e-flat' content="More Details" isPrimary={true} onClick={()=>{}} >More details</Button>
+            <Button
+              id="delete"
+              className="e-flat"
+              content="Delete"
+              onClick={() => { }}
+            >
+              Delete
+            </Button>
+            <Button
+              id="more-details"
+              className="e-flat"
+              content="More Details"
+              onClick={() => { }}
+            >
+              More details
+            </Button>
           </div>
-        }
+        )}
       </div>
     );
-  }
+  };
+
   return (
     <div className="rounded-lg bg-white relative h-full overflow-y-auto">
-      <ScheduleComponent startHour="5:00" eventSettings={{ dataSource: eventFormatter(events) }} quickInfoTemplates={{ header: headerTemplate, content: contentTemplate, footer: footerTemplate }}>
+      <ScheduleComponent
+        ref={scheduleObj}
+        startHour="5:00"
+
+        eventSettings={{ dataSource: eventFormatter(events) }}
+        quickInfoTemplates={{
+          header: headerTemplate,
+          content: contentTemplate,
+          footer: footerTemplate,
+        }}
+      >
         <ViewsDirective>
-          <ViewDirective option={Browser.isDevice ? 'Agenda' : 'WorkWeek'} eventTemplate={eventTemplate} />
-          <ViewDirective option={Browser.isDevice ? 'WorkWeek' : 'Day'} eventTemplate={eventTemplate} />
+          <ViewDirective
+            option={Browser.isDevice ? "Agenda" : "WorkWeek"}
+          />
+          <ViewDirective
+            option={Browser.isDevice ? "WorkWeek" : "Day"}
+          />
         </ViewsDirective>
         <Inject services={[WorkWeek, Agenda, Day]} />
       </ScheduleComponent>

@@ -13,8 +13,8 @@ export default function PatientProfile({
   return (
     <div className={cn("flex w-full", className)}>
       <Avatar className="w-20 h-20">
-        <AvatarImage src="https://placehold.co/100x100.png" alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarImage src="https://placehold.co/test.png" alt="@shadcn" />
+        <AvatarFallback className="text-2xl font-bold">{patient?.fullName.split(' ').map(name=> name[0]).join('')}</AvatarFallback>
       </Avatar>
       <div className="ml-4">
         <div className="font-bold text-xl">{patient?.fullName}</div>
