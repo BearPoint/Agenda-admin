@@ -9,6 +9,8 @@ import {
   CurrentAction,
   Day,
   Inject,
+  ResourceDirective,
+  ResourcesDirective,
   ScheduleComponent,
   ViewDirective,
   ViewsDirective,
@@ -36,7 +38,18 @@ interface EventSchedule {
     patient: Patient
   }
 }
-
+const roomData: Record<string, any>[] = [
+  { Name: 'Jammy', Id: 1, Capacity: 20, Color: '#ea7a57', Type: 'Conference' },
+  { Name: 'Tweety', Id: 2, Capacity: 7, Color: '#7fa900', Type: 'Cabin' },
+  { Name: 'Nestle', Id: 3, Capacity: 5, Color: '#5978ee', Type: 'Cabin' },
+  { Name: 'Phoenix', Id: 4, Capacity: 15, Color: '#fec200', Type: 'Conference' },
+  { Name: 'Mission', Id: 5, Capacity: 25, Color: '#df5286', Type: 'Conference' },
+  { Name: 'Hangout', Id: 6, Capacity: 10, Color: '#00bdae', Type: 'Cabin' },
+  { Name: 'Rick Roll', Id: 7, Capacity: 20, Color: '#865fcf', Type: 'Conference' },
+  { Name: 'Rainbow', Id: 8, Capacity: 8, Color: '#1aaa55', Type: 'Cabin' },
+  { Name: 'Swarm', Id: 9, Capacity: 30, Color: '#df5286', Type: 'Conference' },
+  { Name: 'Photogenic', Id: 10, Capacity: 25, Color: '#710193', Type: 'Conference' }
+];
 export default function Schedule({ events }: { events: Appointment[] | null }) {
   dayjs.locale("es-mx");
   let scheduleObj = useRef<ScheduleComponent>(null);
@@ -63,7 +76,7 @@ export default function Schedule({ events }: { events: Appointment[] | null }) {
 
   const buttonClickActions = async (e: Event) => {
     const quickPopup: HTMLElement = closest(e.target as HTMLElement, '.e-quick-popup-wrapper') as HTMLElement;
-    console.log({patient: patientRef?.current})
+    console.log({ patient: patientRef?.current })
     const getSlotData: Function = (): Record<string, any> => ({
       id: scheduleObj?.current?.getEventMaxID(),
       extendedProps: {
@@ -93,7 +106,7 @@ export default function Schedule({ events }: { events: Appointment[] | null }) {
 
       const eventDetails: Record<string, any> = scheduleObj?.current?.activeEventData.event as Record<string, any>;
       let currentAction: CurrentAction = 'Delete';
-      
+
       if (eventDetails.RecurrenceRule) {
         currentAction = 'DeleteOccurrence';
       }
