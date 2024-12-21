@@ -39,7 +39,7 @@ interface DataTableProps<TData, TValue> {
 
 export const columns: ColumnDef<PatientTable>[] = [
   {
-    accessorKey: "fullName",
+    accessorKey: "name",
     header: "Nombre",
   },
   {

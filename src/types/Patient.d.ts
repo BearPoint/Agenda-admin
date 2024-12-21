@@ -1,7 +1,7 @@
 import { EmergencyContact } from './emergency_contact';
 
 export interface NewPatient {
-  fullName: string;
+  name: string;
   date_birth: string;
   allergy: string;
   email: string;
@@ -13,7 +13,7 @@ export interface Patient {
   id: string;
   id_patient: string
   id_account: string
-  fullName: string;
+  name: string;
   date_birth: string;
   avatar_url: string;
   medical_history: string;

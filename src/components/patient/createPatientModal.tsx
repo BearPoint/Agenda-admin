@@ -17,13 +17,14 @@ export default function CreatePatientModal() {
 
   const onSubmit = async (values: NewPatient) => {
     const {data:{user}, error:errorUser }= await supabase.auth.getUser()
-    
+    console.log({values, user})
     const {data,error}= await supabase.from('patient').insert([{id_account: user?.id, ...values}])
     
     if (error || errorUser) {
       toast({
         title: "Server Error",
-        description: errorUser?.message || error?.message
+        description: errorUser?.message || error?.message,
+        variant: "destructive"
       })
     } else {
       router.refresh()

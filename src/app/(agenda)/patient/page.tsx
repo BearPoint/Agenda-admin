@@ -16,15 +16,18 @@ export default function PatientPage() {
   const fetchData = async () => {
     const isNumber = searchQuery.length >= 1 && !isNaN(searchQuery as any) 
     const { data } = await supabase.from('patient')
-      .select('id,fullName,phone,created_at,appointment(date)')
-      .ilike(isNumber ? "phone" : 'fullName', `%${searchQuery}%`)
+      .select('id,name,phone,created_at,appointment(date)')
+      .ilike(isNumber ? "phone" : 'name', `%${searchQuery}%`)
       .order('created_at', { ascending: false})
       .limit(1, { foreignTable: 'appointment' })
+    console.log(data)
     setPatient(data || [])
   } 
+
   useEffect(() => {
     fetchData()
   }, [searchQuery])
+
   useEffect(() => {
     if(!isOpen){
       fetchData()

@@ -31,9 +31,8 @@ import { format } from 'date-fns'
 
 export default function NewPatientForm({onSubmit}: {onSubmit: (values: z.infer<typeof formSchema>)=> void}) {
   const formSchema = z.object({
-    fullName: z.string().min(2).max(50),
+    name: z.string().min(2).max(50),
     date_birth: z.date(),
-    allergy: z.string(),
     email: z.string().email(),
     phone: z.string().length(10),
     gender: z.string()
@@ -42,9 +41,8 @@ export default function NewPatientForm({onSubmit}: {onSubmit: (values: z.infer<t
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: '',
-      date_birth: new Date(),
-      allergy: '',
+      name: '',
+      date_birth: new Date(),   
       email: '',
       phone: '',
       gender: '',
@@ -56,7 +54,7 @@ export default function NewPatientForm({onSubmit}: {onSubmit: (values: z.infer<t
       <form onSubmit={form.handleSubmit(onSubmit)} className='mt-3 relative'>
         <FormField
           control={form.control}
-          name="fullName"
+          name="name"
           render={({ field }) => (
             <FormItem className='my-2'>
               <FormLabel>Nombre Completo</FormLabel>
@@ -131,7 +129,7 @@ export default function NewPatientForm({onSubmit}: {onSubmit: (values: z.infer<t
             render={({ field }) => (
               <FormItem className='w-1/2'>
                 <FormLabel>Genero</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={field.value || 'Mujer'}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue />
@@ -161,7 +159,7 @@ export default function NewPatientForm({onSubmit}: {onSubmit: (values: z.infer<t
             )}
           />
         </div>
-        <FormField
+        {/* <FormField
           control={form.control}
           name="allergy"
           render={({ field }) => (
@@ -173,7 +171,7 @@ export default function NewPatientForm({onSubmit}: {onSubmit: (values: z.infer<t
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <div className='flex justify-end my-5'>
 
           <Button type="submit">Crear Paciente</Button>
