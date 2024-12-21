@@ -1,11 +1,61 @@
-import PatientRecord from "@/components/patient/patientRecord";
-import PatientSearch from "@/components/patient/patientSearch";
+'use client'
+import { columns, DataTable } from "@/components/patient/patientTable/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ModalType, useModal } from "@/hooks/useModal";
+import { PatientTable } from "@/types/patientTable";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useEffect, useState } from "react";
 
-export default function Paciest({searchParams}: {searchParams: {query?:string, patientId?: string}}) {
+export default function PatientPage() {
+  const [patients, setPatient] = useState<PatientTable[]>([])
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const supabase = createClientComponentClient()
+  const {onOpen, isOpen} = useModal();
+
+  const fetchData = async () => {
+    const isNumber = searchQuery.length >= 1 && !isNaN(searchQuery as any) 
+    const { data } = await supabase.from('patient')
+      .select('id,name,phone,created_at,appointment(date)')
+      .ilike(isNumber ? "phone" : 'name', `%${searchQuery}%`)
+      .order('created_at', { ascending: false})
+      .limit(1, { foreignTable: 'appointment' })
+    console.log(data)
+    setPatient(data || [])
+  } 
+
+  useEffect(() => {
+    fetchData()
+  }, [searchQuery])
+
+  useEffect(() => {
+    if(!isOpen){
+      fetchData()
+    }
+  }, [isOpen])
+
+  const onClickNewPatient= ()=> {
+    onOpen({
+      type: ModalType.createPatientModal,
+    })
+  }
   return (
-    <div className="grid gap-3 grid-cols-[350px_1fr] grid-rows-1 h-full min-h-0 ">
-      <PatientSearch query={searchParams.query}/>
-      <PatientRecord patientId={searchParams.patientId}/>
+    <div className="pr-10 pl-5 py-5">
+      <div className="mb-3 font-semibold text-xl flex justify-between">
+        Pacientes
+        <Button onClick={onClickNewPatient}>Nuevo Paciente</Button>
+      </div>
+      <div className="my-5">
+        <Input
+          type="text"
+          placeholder="Buscar por nombre o telefono..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+      <div>
+        <DataTable columns={columns} data={patients} />
+      </div>
     </div>
-  );
+  )
 }

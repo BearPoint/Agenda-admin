@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Modal } from "./modal";
-import SearchPatients from "./searchPatients";
+import SearchPatients from "@/components/common/searchPatient/searchPatients";
 import { Patient } from "@/types/Patient";
 import dayjs from "dayjs";
 import { ModalType, useModal } from "@/hooks/useModal";
@@ -25,7 +25,7 @@ export function CreateEventModal() {
     isOpen,
     type,
   } = useModal();
-  const route = useRouter()
+  const router = useRouter()
   const [form, setForm] = useState<AppointmentInputs>(defaultValues);
   const [patient, setPatient] = useState<Patient>({} as Patient);
   const [event, setEvent] = useState<EventSchedule | undefined>(
@@ -51,11 +51,11 @@ export function CreateEventModal() {
       !patient
         ? defaultValues
         : {
-            ...oldValue,
-            name: patient.fullName,
-            dateOfBirth: patient.date_birth,
-            phone: patient.phone,
-          }
+          ...oldValue,
+          name: patient.fullName,
+          dateOfBirth: patient.date_birth,
+          phone: patient.phone,
+        }
     );
     setPatient(patient || defaultValues);
   };
@@ -67,20 +67,20 @@ export function CreateEventModal() {
   };
   const onClickHandler = async () => {
     if(!form.name.length) return
-     
-    await supabase.from("appointment").insert({
+    const { error } = await supabase.from("appointment").insert({
       id_patient: patient?.id,
       id_account: patient?.id_account,
       type: "PRIMERA_CITA",
-      date: dayjs(eventDay
-
-      ).toISOString(),
-      notes: `${form.notes}${
-        event?.description ? "\n" + event.description : ""
-      }`,
+      date: dayjs(eventDay).toISOString(),
+      notes: `${form.notes}${event?.description ? "\n" + event.description : ""
+        }`,
     });
-    route.refresh()
+    if (!error) {
+      onClose()
+    }
+    router.refresh()
     onClose()
+
   };
   return (
     <Modal

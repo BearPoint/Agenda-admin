@@ -10,10 +10,10 @@ export default  async function PatientSearch({query = ''}: any) {
   const {data:patients, error} = await supabase.from('patient').select('*').ilike("fullName", `%${query}%`);
 
   return (
-    <div className="grid grid-cols-1 grid-rows-[100px_1fr] border-r-2 px-3 shadow bg-white">
-      <PatientInputSearch/>
+    <div className="grid grid-cols-1 grid-rows-[100px_1fr] border-r-2 px-3 shadow bg-white relative">
+      <PatientInputSearch onChangeHandler={onChangeHandler} />
 
-      <ScrollArea className="">
+      <ScrollArea className="absolute">
         <PatientList results={patients || []} isLoading={false} />
       </ScrollArea>
     </div>

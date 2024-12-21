@@ -8,13 +8,13 @@ export default function SignInProvider() {
   const supabase = createClientComponentClient()
 
   const onClickHandler = async (provider: Provider) => {
+    console.log(process.env.BASE_URL + ' test')
     const {data, error} = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: 'http://localhost:3000/auth/callback'
+        redirectTo: `http://localhost:3000/auth/callback`
       }
     })
-    debugger
   }
   return (
     <div className="grid grid-cols-2 gap-6">

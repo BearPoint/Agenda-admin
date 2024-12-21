@@ -1,15 +1,19 @@
+import { Patient } from './../types/Patient.d';
 import dayjs, { Dayjs } from "dayjs";
 import { create } from "zustand";
 
 export enum ModalType {
   "CreateAppointment",
   "viewAppointment",
+  "previewPatientModal",
+  "createPatientModal"
 }
 
 interface ModalData {
   event?: any;
   eventDay?: Dayjs | string;
   envetId?: string;
+  patient?: Patient;
 }
 
 interface SetState {

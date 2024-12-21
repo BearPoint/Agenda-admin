@@ -3,9 +3,8 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import Sidebar from "@/components/sidebar";
 import ModalProvider from "@/components/providres/modal-provider";
-import { Toaster } from "@/components/ui/toaster";
-import Header from "@/components/header";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 const dm_sans = DM_Sans({ weight: ["400"], subsets: ["latin"] });
 
@@ -19,17 +18,18 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
+      </head>
       <body className={cn(dm_sans.className, "h-screen")}>
         <ModalProvider />
         <Toaster />
-        <div className="grid gap-x-5 bg-[#F3F9F8] grid-cols-2 md:grid-cols-[60px_1fr] h-screen">
+        <div className="grid gap-x-5 bg-white grid-cols-1 md:grid-cols-[250px_1fr] h-screen">
           <Sidebar />
-          <div className="grid grid-rows-[60px_1fr] gap-y-2 h-screen">
-            <Header />
-            {children}
-          </div>
+          {children}
         </div>
       </body>
     </html>

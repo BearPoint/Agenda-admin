@@ -3,8 +3,8 @@ import useSearchPatients from "@/hooks/useSearchPatients";
 import Image from "next/image";
 import debounce from "just-debounce-it";
 import { Patient } from "@/types/Patient";
-import SearchPatientsList from "./SearchPatientsList";
-import { SetStateAction, useState } from "react";
+import SearchPatientsList from "@/components/common/searchPatient/SearchPatientsList";
+import { useState } from "react";
 import SearchPatientsItem from "./searchPatientItem";
 
 export default function SearchPatients({
@@ -61,7 +61,7 @@ export default function SearchPatients({
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Buscar paciente..."
             autoComplete="off"
-            onFocus={onFocusHandler}
+            // onFocus={onFocusHandler}
           />
           {isLoading ? (
             <div className="absolute top-12 bg-white w-full z-50 rounded p-2 border border-slate-700/10 text-center">
