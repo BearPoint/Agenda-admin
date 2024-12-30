@@ -7,7 +7,7 @@ import { ModalType, useModal } from "@/hooks/useModal";
 import { AppointmentInputs } from "@/types/appointment";
 import Scheduler from "./schedule";
 import AppointmentForm from "./appointmentForm";
-import { EventScheschuld } from "@/types/eventSchedule";
+import { EventSchedule } from "@/types/eventSchedule";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
@@ -28,8 +28,8 @@ export function CreateEventModal() {
   const router = useRouter()
   const [form, setForm] = useState<AppointmentInputs>(defaultValues);
   const [patient, setPatient] = useState<Patient>({} as Patient);
-  const [event, setEvent] = useState<EventScheschuld | undefined>(
-    {} as EventScheschuld
+  const [event, setEvent] = useState<EventSchedule | undefined>(
+    {} as EventSchedule
   );
   const isModalOpen = isOpen && type === ModalType.CreateAppointment;
 
@@ -66,6 +66,7 @@ export function CreateEventModal() {
     }));
   };
   const onClickHandler = async () => {
+    if(!form.name.length) return
     const { error } = await supabase.from("appointment").insert({
       id_patient: patient?.id,
       id_account: patient?.id_account,
@@ -77,6 +78,8 @@ export function CreateEventModal() {
     if (!error) {
       onClose()
     }
+    router.refresh()
+    onClose()
 
   };
   return (

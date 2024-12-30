@@ -1,4 +1,3 @@
-"use client";
 import useSearchPatients from "@/hooks/useSearchPatients";
 import PatientItem from "./patientItem";
 import Loading from "../Loading";
