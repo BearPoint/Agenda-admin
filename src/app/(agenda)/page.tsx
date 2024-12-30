@@ -19,8 +19,8 @@ export default async function Home() {
 
   const { data } = await supabase.from("appointment").select(`*, patient(*)`);
   return (
-    <div className="flex flex-col mx-5">
-      <div className="grid grid-cols-[1fr_200px] my-5 ">
+    <div className="flex flex-col mx-5 h-screen">
+      <div className="grid grid-cols-[1fr_200px] my-5">
       <DashboardSearchPatient/>
         <div className="ml-3 flex items-center">
           <DropdownMenu>
@@ -36,7 +36,7 @@ export default async function Home() {
           </DropdownMenu>
         </div>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 overflow-y-scroll">
         <Schedule events={data} />
       </div>
     </div>

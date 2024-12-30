@@ -210,7 +210,7 @@ export default function Schedule({ events }: { events: Appointment[] | null }) {
   };
 
   return (
-    <div className="rounded-lg bg-white relative h-full overflow-y-auto">
+    <div className="rounded-lg bg-white relative h-full">
       <ScheduleComponent
         ref={scheduleObj}
         startHour="5:00"
