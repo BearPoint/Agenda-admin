@@ -19,7 +19,7 @@ export default function useSearchPatient({
       const { data, error } = await supabase
         .from("patient")
         .select("*")
-        .ilike("fullName", `%${name}%`);
+        .ilike("name", `%${name}%`);
 
         setResults(data || [])
     } catch (error) {
@@ -37,11 +37,16 @@ export default function useSearchPatient({
     setLoading(true);
     fetchData(name);
   };
+
+  const clearResults = ()=> {
+    setResults([]);
+  }
+  
   useEffect(() => {
     if(defaultSearch) {
       getPatients();
     }
   }, []);
 
-  return { results, getPatients, isLoading };
+  return { results, getPatients, isLoading, clearResults };
 }

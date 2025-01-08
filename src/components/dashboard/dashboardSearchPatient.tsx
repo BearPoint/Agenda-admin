@@ -18,8 +18,7 @@ export default function DashboardSearchPatient() {
   };
   return (
     <div className="w-full">
-
-    <SearchPatients onSelectedPatient={onSelectedPatient}/>
+      <SearchPatients onSelectedPatient={onSelectedPatient}/>
     </div>
   )
 } 

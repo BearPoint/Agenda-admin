@@ -6,10 +6,10 @@ export function eventFormatter(events: Appointment[] | null){
   if (!events) return []
   return events.map((event) => ({
     id: event.id,
-    Subject: event?.patient?.fullName,
+    Subject: event?.patient?.name,
     StartTime: dayjs(event.date).format('YYYY-MM-DDTHH:mm:ssZ'),
-    EndTime: dayjs(event.date).add(1, 'hour').format('YYYY-MM-DDTHH:mm:ssZ'),
-    CategoryColor: "#1aaa55",
+    EndTime: dayjs(event.date).add(30, 'minute').format('YYYY-MM-DDTHH:mm:ssZ'),
+    CategoryColor: "#ff0000",
     description: event.notes,
     extendedProps: {
       ...event
