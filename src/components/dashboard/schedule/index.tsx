@@ -8,7 +8,10 @@ import {
   Agenda,
   CurrentAction,
   Day,
+  DragAndDrop,
+  EventSettingsModel,
   Inject,
+  PopupOpenEventArgs,
   ResourceDirective,
   ResourcesDirective,
   ScheduleComponent,
@@ -16,20 +19,20 @@ import {
   ViewsDirective,
   WorkWeek,
 } from "@syncfusion/ej2-react-schedule";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import PatientProfile from "../common/patientProfile";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import PatientProfile from "@/components/common/patientProfile";
 import { Patient } from "@/types/Patient";
 import "dayjs/locale/es-mx";
-import SearchPatients from "../common/searchPatient/searchPatients";
+import SearchPatients from "@/components/common/searchPatient/searchPatients";
 import { useRef, useState } from "react";
-import { Label } from "../ui/label";
+import { Label } from "@/components/ui/label";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 interface EventSchedule {
   StartTime: string,
   EndTime: string,
-  Description: string,
+  description: string,
   elementType: string
   PrimaryColor: string,
   SecondaryColor: string,
@@ -57,10 +60,19 @@ export default function Schedule({ events }: { events: Appointment[] | null }) {
   const notesRef = useRef(null)
   const patientRef = useRef<Patient | null>(null)
   const supabase = createClientComponentClient()
+
+  const eventSettings: EventSettingsModel = {
+    dataSource: eventFormatter(events),
+    allowEditing: true,
+    enableTooltip: true
+  }
+
+
+
   const getHeaderTitle = (data: Record<string, any>): string => {
     return data.elementType === "cell"
       ? "Crear Cita"
-      : "detealles de cita";
+      : "Detalles de cita";
   };
 
   const getHeaderDetails = (data: EventSchedule): string => {
@@ -209,13 +221,20 @@ export default function Schedule({ events }: { events: Appointment[] | null }) {
     );
   };
 
+
+  const modalEditView = (args: PopupOpenEventArgs)=> {
+    if(args.type === 'Editor') {
+      
+    }
+  }
+
   return (
     <div className="rounded-lg bg-white relative h-full">
       <ScheduleComponent
         ref={scheduleObj}
-        startHour="5:00"
+        startHour="7:00"
 
-        eventSettings={{ dataSource: eventFormatter(events) }}
+        eventSettings={eventSettings}
         quickInfoTemplates={{
           header: headerTemplate,
           content: contentTemplate,
@@ -230,7 +249,7 @@ export default function Schedule({ events }: { events: Appointment[] | null }) {
             option={Browser.isDevice ? "WorkWeek" : "Day"}
           />
         </ViewsDirective>
-        <Inject services={[WorkWeek, Agenda, Day]} />
+        <Inject services={[WorkWeek, Agenda, Day, DragAndDrop]} />
       </ScheduleComponent>
     </div>
   );

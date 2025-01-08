@@ -17,7 +17,8 @@ export default async function Home() {
     cookies,
   });
 
-  const { data } = await supabase.from("appointment").select(`*, patient(*)`);
+  const { data, error } = await supabase.from("appointment").select(`*, patient(*)`);
+  console.log(data, error)
   return (
     <div className="flex flex-col mx-5 h-screen">
       <div className="grid grid-cols-[1fr_200px] my-5">
